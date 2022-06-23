@@ -1,0 +1,27 @@
+{
+  "name": "exceptional",
+  "version": "0.0.0",
+  "description": "Richer errors with first-class Typescript support.",
+  "author": "Ben Yap <contact@benyap.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/benyap/exceptional",
+  "bugs": {
+    "url": "https://github.com/benyap/exceptional/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benyap/exceptional.git"
+  },
+  "keywords": [
+    "error",
+    "exception",
+    "extend",
+    "cause",
+    "custom"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "devDependencies": {}
+}
