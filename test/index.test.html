@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+    <title>exceptional</title>
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+    <script type="module">
+      mocha.setup("bdd");
+      mocha.checkLeaks();
+    </script>
+    <script type="module" src="index.test.mjs"></script>
+    <script type="module">
+      mocha.run();
+    </script>
+  </body>
+</html>

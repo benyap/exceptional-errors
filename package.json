@@ -1,16 +1,16 @@
 {
   "name": "exceptional",
   "version": "0.0.0",
+  "license": "MIT",
   "description": "Richer errors with first-class Typescript support.",
   "author": "Ben Yap <contact@benyap.com>",
-  "license": "MIT",
   "homepage": "https://github.com/benyap/exceptional",
   "bugs": {
     "url": "https://github.com/benyap/exceptional/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benyap/exceptional.git"
+    "url": "https://github.com/benyap/exceptional.git"
   },
   "keywords": [
     "error",
@@ -19,9 +19,43 @@
     "cause",
     "custom"
   ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
-  "devDependencies": {}
+  "scripts": {
+    "prepare": "husky install",
+    "format": "prettier --write 'src/**/*.ts'",
+    "clean": "rimraf dist/* coverage/*",
+    "build": "pnpm clean && pnpm concurrently pnpm:build:* -n build:",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "test": "pnpm build && mocha test/index.test.js",
+    "test:browser": "concurrently pnpm:test:browser:* -n test:browser:",
+    "test:browser:serve": "pnpm serve",
+    "test:browser:open": "wait-on http://localhost:3000 && open http://localhost:3000/test/index.test",
+    "release": "pnpm test && pnpm release-it"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.0.2",
+    "@commitlint/config-conventional": "17.0.2",
+    "@release-it/conventional-changelog": "5.0.0",
+    "@types/chai": "4.3.1",
+    "chai": "4.3.6",
+    "concurrently": "7.2.2",
+    "husky": "8.0.1",
+    "jest-environment-jsdom": "28.1.1",
+    "mocha": "10.0.0",
+    "prettier": "2.7.1",
+    "release-it": "15.1.0",
+    "rimraf": "3.0.2",
+    "serve": "13.0.2",
+    "typescript": "4.7.4",
+    "wait-on": "6.0.1"
+  }
 }
