@@ -5,6 +5,7 @@ specifiers:
   '@commitlint/config-conventional': 17.0.2
   '@release-it/conventional-changelog': 5.0.0
   '@types/chai': 4.3.1
+  '@types/mocha': 9.1.1
   chai: 4.3.6
   concurrently: 7.2.2
   husky: 8.0.1
@@ -22,6 +23,7 @@ devDependencies:
   '@commitlint/config-conventional': 17.0.2
   '@release-it/conventional-changelog': 5.0.0_release-it@15.1.0
   '@types/chai': 4.3.1
+  '@types/mocha': 9.1.1
   chai: 4.3.6
   concurrently: 7.2.2
   husky: 8.0.1
@@ -573,6 +575,10 @@ packages:
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
+    dev: true
+
+  /@types/mocha/9.1.1:
+    resolution: {integrity: sha512-Z61JK7DKDtdKTWwLeElSEBcWGRLY8g95ic5FoQqI9CMx0ns/Ghep3B4DfcEimiKMvtamNVULVNKEsiwV3aQmXw==}
     dev: true
 
   /@types/node/18.0.0:

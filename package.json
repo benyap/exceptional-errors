@@ -35,10 +35,10 @@
     "build": "pnpm clean && pnpm concurrently pnpm:build:* -n build:",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
-    "test": "pnpm build && mocha test/index.test.js",
+    "test": "pnpm build && mocha test/node.test.js",
     "test:browser": "concurrently pnpm:test:browser:* -n test:browser:",
     "test:browser:serve": "pnpm serve",
-    "test:browser:open": "wait-on http://localhost:3000 && open http://localhost:3000/test/index.test",
+    "test:browser:open": "wait-on http://localhost:3000 && open http://localhost:3000/test/browser.test",
     "release": "pnpm test && pnpm release-it"
   },
   "devDependencies": {
@@ -46,6 +46,7 @@
     "@commitlint/config-conventional": "17.0.2",
     "@release-it/conventional-changelog": "5.0.0",
     "@types/chai": "4.3.1",
+    "@types/mocha": "9.1.1",
     "chai": "4.3.6",
     "concurrently": "7.2.2",
     "husky": "8.0.1",
