@@ -1,5 +1,12 @@
 
 
+## [0.1.0-alpha.1](https://github.com/benyap/exceptional/compare/0.1.0-alpha.0...0.1.0-alpha.1) (2022-06-25)
+
+
+### Internal
+
+* **ci:** fix publish command ([079dc01](https://github.com/benyap/exceptional/commit/079dc01836cb5a6a7e1130b5fb4bd67f72389b59))
+
 ## 0.1.0-alpha.0 (2022-06-25)
 
 
