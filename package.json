@@ -1,6 +1,6 @@
 {
   "name": "exceptional-errors",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "license": "MIT",
   "description": "Richer errors with first-class Typescript support.",
   "author": "Ben Yap <contact@benyap.com>",

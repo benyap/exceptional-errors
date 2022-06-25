@@ -1,5 +1,12 @@
 
 
+## [0.1.0-alpha.2](https://github.com/benyap/exceptional-errors/compare/0.1.0-alpha.1...0.1.0-alpha.2) (2022-06-25)
+
+
+### Internal
+
+* rename to exceptional-errors ([a8ee8eb](https://github.com/benyap/exceptional-errors/commit/a8ee8eb4ef050c7177ceaaf49c685c05bce6ce33))
+
 ## [0.1.0-alpha.1](https://github.com/benyap/exceptional/compare/0.1.0-alpha.0...0.1.0-alpha.1) (2022-06-25)
 
 
