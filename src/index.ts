@@ -25,7 +25,7 @@ export type Info = { [key: string]: any };
  * existing error as the cause and add structured data to help with debugging.
  *
  * @template T The shape of any structured data to pass to the error, which can be accessed through the `.info` property. Defaults to the arbitrary type {@link Info}.
- * @template Cause The error type that this error may wrap as a cause, which can be accessed through the `.cause` property. Defaults to the built-in type {@link Error}.
+ * @template Cause The error type that this error may wrap as a cause, which can be accessed through the `.cause` property. Must extend the built-in type {@link Error}.
  */
 export class EError<
   T extends Info = Info,
@@ -50,8 +50,7 @@ export class EError<
 
   /**
    * Create an {@link EError} instance with the given message and cause.
-   * The message of the causing error will be added to this error's message.
-   * Access the cause through the `.cause` property.
+   * The message of the causing error will be appended to this error's message.
    *
    * @param message The error message.
    * @param error The causing error to wrap.
@@ -61,11 +60,8 @@ export class EError<
   /**
    * Create an {@link EError} instance with the given message, cause and
    * any additional data passed in the `info` object. The message of the
-   * causing error will be added to this error's message, unless `private`
+   * causing error will be appended to this error's message unless `private`
    * is set to true in the `info` object.
-   *
-   * Access the cause through the `.cause` property, and the provided info
-   * through the `.info` property.
    *
    * @param message The error message.
    * @param error The causing error to wrap.
@@ -76,11 +72,8 @@ export class EError<
   /**
    * Create an {@link EError} instance with the given message, cause and
    * any additional data passed in the `options` object. The message of the
-   * causing error will be added to this error's message, unless `private`
+   * causing error will be appended to this error's message unless `private`
    * is set to true in the `options` object.
-   *
-   * Access the cause through the `.cause` property, and the provided info
-   * through the `.info` property.
    *
    * @param message The error message.
    * @param options Data to pass to the error, including the `cause`.
@@ -211,6 +204,7 @@ export class EError<
 
   /**
    * Find the first cause in the error's cause chain that satisfies the given predicate.
+   * Returns `null` if no cause satisfies the predicate.
    *
    * @param error The error to find the cause in.
    * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
@@ -226,6 +220,7 @@ export class EError<
 
   /**
    * Find the first cause in the error's cause chain that satisfies the given predicate.
+   * Returns `null` if no cause satisfies the predicate.
    *
    * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
    */
@@ -281,12 +276,15 @@ export class EError<
   }
 
   /**
-   * Find the causes in the error's cause chain that satisfy the given predicate.
+   * Find all the causes in the error's cause chain that satisfy the given predicate.
    *
    * @param error The error to find the cause in.
    * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
    */
-  static findCausesIf(error: Error, predicate: (error: Error) => boolean) {
+  static findCausesIf(
+    error: Error,
+    predicate: (error: Error) => boolean
+  ): Error[] {
     const causes: Error[] = [];
 
     let errorCause: Error | null = error;
@@ -299,7 +297,7 @@ export class EError<
   }
 
   /**
-   * Find the causes in the error's cause chain that satisfy the given predicate.
+   * Find all the causes in the error's cause chain that satisfy the given predicate.
    *
    * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
    */
