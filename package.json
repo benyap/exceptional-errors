@@ -42,8 +42,8 @@
     "release": "pnpm test && pnpm release-it"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.0.2",
-    "@commitlint/config-conventional": "17.0.2",
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
     "@release-it/conventional-changelog": "5.0.0",
     "@types/chai": "4.3.1",
     "@types/mocha": "9.1.1",
