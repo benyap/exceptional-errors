@@ -1,5 +1,28 @@
 
 
+## [0.1.0-alpha.3](https://github.com/benyap/exceptional-errors/compare/0.1.0-alpha.2...0.1.0-alpha.3) (2022-06-25)
+
+
+### Features
+
+* remove util functions (must be accessed through EError), add documentation ([5a51a40](https://github.com/benyap/exceptional-errors/commit/5a51a40ebc647960b1bf8458609da6a01272e52e))
+
+
+### Bug Fixes
+
+* include current error when finding causes ([8d4b9c4](https://github.com/benyap/exceptional-errors/commit/8d4b9c46512bfbda0830fb5e7f6229a21706cc06))
+
+
+### Internal
+
+* add build step hack to ship with only comments in .d.ts files ([3864924](https://github.com/benyap/exceptional-errors/commit/38649242db33de0f5c68e2f9fbfd87bdcee57829))
+* remove unused dev dependency ([12d4102](https://github.com/benyap/exceptional-errors/commit/12d410249f46a9b5ed1aaeb8191c01502af80278))
+
+
+### Documentation
+
+* add quickstart to README ([f0e3016](https://github.com/benyap/exceptional-errors/commit/f0e3016921c6a63e6c120897784ef8c735403c50))
+
 ## [0.1.0-alpha.2](https://github.com/benyap/exceptional-errors/compare/0.1.0-alpha.1...0.1.0-alpha.2) (2022-06-25)
 
 
