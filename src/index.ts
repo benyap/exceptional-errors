@@ -218,7 +218,7 @@ export class EError<
   static findCauseIf(error: Error, predicate: (error: Error) => boolean) {
     let errorCause: Error | null = error;
     while (errorCause) {
-      if (predicate(error)) return errorCause;
+      if (predicate(errorCause)) return errorCause;
       errorCause = EError.cause(errorCause);
     }
     return null;
@@ -291,7 +291,7 @@ export class EError<
 
     let errorCause: Error | null = error;
     while (errorCause) {
-      if (predicate(error)) causes.push(error);
+      if (predicate(errorCause)) causes.push(errorCause);
       errorCause = EError.cause(errorCause);
     }
 
