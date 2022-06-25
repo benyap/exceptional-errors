@@ -1,5 +1,19 @@
 
 
+## [0.1.0](https://github.com/benyap/exceptional-errors/compare/0.1.0-alpha.3...0.1.0) (2022-06-25)
+
+
+### Bug Fixes
+
+* findCauseIf and findCausesIf fail can now find nested causes ([be50073](https://github.com/benyap/exceptional-errors/commit/be50073cb2fd16e3eb9779b6276e07ee67a37b7c))
+
+
+### Internal
+
+* add API reference and examples ([9f545c7](https://github.com/benyap/exceptional-errors/commit/9f545c72224a301159935b91bdfd3568c1cc00fc))
+* add tests ([bb175a1](https://github.com/benyap/exceptional-errors/commit/bb175a1738b9180d7f86016329b9ec5d337231c5))
+* **deps:** update commitlint monorepo to v17.0.3 ([#3](https://github.com/benyap/exceptional-errors/issues/3)) ([7c9e798](https://github.com/benyap/exceptional-errors/commit/7c9e79840b07fc05780c8b8a0b893ca0e76c38e8))
+
 ## [0.1.0-alpha.3](https://github.com/benyap/exceptional-errors/compare/0.1.0-alpha.2...0.1.0-alpha.3) (2022-06-25)
 
 
