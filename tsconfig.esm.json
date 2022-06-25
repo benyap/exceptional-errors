@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noEmit": false,
-    "declaration": true,
+    "declaration": false,
+    "removeComments": true,
     "module": "ES6",
     "outDir": "./dist/esm"
   },

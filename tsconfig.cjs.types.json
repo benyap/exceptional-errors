@@ -2,8 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "removeComments": true,
+    "declaration": true,
     "module": "CommonJS",
     "outDir": "./dist/cjs"
   },
