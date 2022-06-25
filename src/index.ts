@@ -183,7 +183,7 @@ export class EError<
 
   static findCause(error: Error, ...names: string[]): Error | null {
     const causeNames = new Set(names);
-    let errorCause = EError.cause(error);
+    let errorCause: Error | null = error;
     while (errorCause) {
       if (causeNames.has(errorCause.name)) return errorCause;
       errorCause = EError.cause(errorCause);
@@ -216,7 +216,7 @@ export class EError<
    * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
    */
   static findCauseIf(error: Error, predicate: (error: Error) => boolean) {
-    let errorCause = EError.cause(error);
+    let errorCause: Error | null = error;
     while (errorCause) {
       if (predicate(error)) return errorCause;
       errorCause = EError.cause(errorCause);
@@ -253,7 +253,7 @@ export class EError<
     const causeNames = new Set(names);
     const causes: Error[] = [];
 
-    let errorCause = EError.cause(error);
+    let errorCause: Error | null = error;
     while (errorCause) {
       if (causeNames.has(errorCause.name)) causes.push(errorCause);
       errorCause = EError.cause(errorCause);
@@ -289,7 +289,7 @@ export class EError<
   static findCausesIf(error: Error, predicate: (error: Error) => boolean) {
     const causes: Error[] = [];
 
-    let errorCause = EError.cause(error);
+    let errorCause: Error | null = error;
     while (errorCause) {
       if (predicate(error)) causes.push(error);
       errorCause = EError.cause(errorCause);
