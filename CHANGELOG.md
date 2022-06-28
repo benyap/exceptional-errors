@@ -1,5 +1,22 @@
 
 
+## [0.2.0](https://github.com/benyap/exceptional-errors/compare/0.1.0...0.2.0) (2022-06-28)
+
+
+### Features
+
+* refine API to be closer to ES2022 spec, update documentation ([c878c50](https://github.com/benyap/exceptional-errors/commit/c878c50c96df1c9cbdad5f75bdf0d029bf2032f8))
+
+
+### Internal
+
+* add contributors ([6fd6de2](https://github.com/benyap/exceptional-errors/commit/6fd6de28012d65a62d469a55e0fdff1ec2876825))
+
+
+### Documentation
+
+* add benedictong42 as a contributor for ideas ([#5](https://github.com/benyap/exceptional-errors/issues/5)) ([cef0402](https://github.com/benyap/exceptional-errors/commit/cef0402cb440533e1cb9839a4e4274844c831aef))
+
 ## [0.1.0](https://github.com/benyap/exceptional-errors/compare/0.1.0-alpha.3...0.1.0) (2022-06-25)
 
 

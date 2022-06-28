@@ -67,20 +67,20 @@ You can use **EError** to wrap existing errors to give context for where errors
 originate from if they are passed up through your exception handlers.
 
 ```ts
-const error = new Error("it was my fault");
-const wrapped = new EError("something went wrong", error);
-console.log(wrapped);
+const cause = new Error("it was my fault");
+const error = new EError("something went wrong", cause);
+console.log(error);
 ```
 
 This prints:
 
 ```log
-EError: something went wrong > EError: it was my fault
+EError: something went wrong > Error: it was my fault
 ```
 
 #### Example 3
 
-Pass a cause and structured data to **EError** to make it easier to
+Pass a cause as well as structured data to **EError** to make it easier to
 programatically handle and process errors. You can easily access the `cause` and
 `info` for debugging.
 
@@ -126,6 +126,7 @@ console.log(error);
 
 console.log("wrapped instanceof CustomError", wrapped instanceof CustomError);
 console.log("wrapped instanceof EError", wrapped instanceof EError);
+console.log("wrapped instanceof Error", wrapped instanceof Error);
 ```
 
 This prints:
@@ -137,6 +138,7 @@ EError
 EError: parameter x is invalid
 wrapped instanceof CustomError true
 wrapped instanceof EError true
+wrapped instanceof Error true
 ```
 
 #### Example 5
@@ -193,9 +195,9 @@ class MyError extends EError {}
 
 const root = new MyError("root cause", new Error("internal"));
 const intermediate = new EError("intermediate cause", root);
-const top = new EError("top", intermediate);
+const error = new EError("top level error", intermediate);
 
-console.log(top.findCause(MyError));
+console.log(error.findCause(MyError));
 ```
 
 This prints:
