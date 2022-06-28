@@ -1,5 +1,12 @@
 
 
+## [0.2.1](https://github.com/benyap/exceptional-errors/compare/0.2.0...0.2.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* set build output target to es2015 ([d121572](https://github.com/benyap/exceptional-errors/commit/d1215726b8e368f205efb8e2e7be04ffadad8455))
+
 ## [0.2.0](https://github.com/benyap/exceptional-errors/compare/0.1.0...0.2.0) (2022-06-28)
 
 
