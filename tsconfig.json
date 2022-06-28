@@ -18,7 +18,7 @@
     "noErrorTruncation": true,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "target": "ES2022"
+    "target": "ES2015"
   },
   "exclude": ["node_modules"]
 }

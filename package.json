@@ -31,10 +31,10 @@
   "scripts": {
     "prepare": "husky install",
     "format": "prettier --write 'src/**/*.ts'",
-    "clean": "rimraf dist/* coverage/*",
+    "clean": "rimraf dist/* coverage/* build/*",
     "build": "pnpm clean && pnpm concurrently pnpm:build:* -n build:",
-    "build:cjs": "tsc --outDir dist/cjs --declaration && tsc --outDir dist/cjs --module CommonJS --removeComments",
-    "build:esm": "tsc --outDir dist/esm --declaration && tsc --outDir dist/esm --module ES2015 --removeComments",
+    "build:cjs": "tsc --outDir dist/cjs --declaration && tsc --outDir dist/cjs --module CommonJS --target ES2015 --removeComments",
+    "build:esm": "tsc --outDir dist/esm --declaration && tsc --outDir dist/esm --module ES2015 --target ES2015 --removeComments",
     "test": "pnpm test:build && pnpm test:cjs",
     "test:build": "concurrently pnpm:test:build:* -n test:build:",
     "test:build:cjs": "tsc --outDir build/cjs --module CommonJS",

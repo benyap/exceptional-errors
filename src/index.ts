@@ -66,9 +66,10 @@ export class EError<
   /**
    * A property indicating the specific cause of the error.
    *
+   * @override
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
    */
-  override readonly cause?: Cause;
+  readonly cause?: Cause;
 
   readonly info?: T;
 
