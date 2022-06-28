@@ -417,6 +417,12 @@ Thanks goes to these wonderful people
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/benyap"><img src="https://avatars.githubusercontent.com/u/19235373?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Ben Yap</b></sub></a><br /><a href="https://github.com/benyap/exceptional-errors/commits?author=benyap" title="Code">💻</a> <a href="https://github.com/benyap/exceptional-errors/commits?author=benyap" title="Tests">⚠️</a> <a href="https://github.com/benyap/exceptional-errors/commits?author=benyap" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/benedictong42"><img src="https://avatars.githubusercontent.com/u/29601676?v=4?s=80" width="80px;" alt=""/><br /><sub><b>benedictong42</b></sub></a><br /><a href="#ideas-benedictong42" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
