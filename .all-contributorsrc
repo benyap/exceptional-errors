@@ -20,6 +20,15 @@
         "test",
         "doc"
       ]
+    },
+    {
+      "login": "benedictong42",
+      "name": "benedictong42",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29601676?v=4",
+      "profile": "https://github.com/benedictong42",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
