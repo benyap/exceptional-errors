@@ -18,7 +18,8 @@ best-practices, which helped drive some of the design decisions in this package:
 
 - Zero dependencies
 - First-class Typescript support
-- Compatible with Node.js and Browser (ES6+)
+- Compatible with Node.js and Browser (ES6+), including ES2022
+  [Error.cause](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause)
 - Extends the built-in `Error` class
 - Extendable to create custom classes (with the correct class name!)
 - Works as you'd expect with the `instanceof` operator, even when extended
@@ -56,24 +57,25 @@ console.log(error);
 
 This prints:
 
-```
+```log
 EError: oh no!
 ```
 
 #### Example 2
 
-You can use **EError** it to wrap existing errors to give context for where
-errors originate from if they are passed up through your exception handlers.
+You can use **EError** to wrap existing errors to give context for where errors
+originate from if they are passed up through your exception handlers.
 
 ```ts
 const error = new Error("it was my fault");
-console.log(new EError("something went wrong", error));
+const wrapped = new EError("something went wrong", error);
+console.log(wrapped);
 ```
 
 This prints:
 
-```
-EError: something went wrong: it was my fault
+```log
+EError: something went wrong > EError: it was my fault
 ```
 
 #### Example 3
@@ -84,30 +86,64 @@ programatically handle and process errors. You can easily access the `cause` and
 
 ```ts
 const cause = new EError("invalid credentials");
-const error = new EError("failed login", cause, {
-  username: "obiwan",
-  date: Date.now(),
+const error = new EError("failed login", {
+  cause,
+  info: {
+    username: "obiwan",
+    date: Date.now(),
+  },
 });
 
-// Note: You can access error.cause and error.info
-// directly if you are dealing with EError instances
 console.log(error);
-console.log(EError.cause(error));
-console.log(EError.info(error));
+console.log(error.cause);
+console.log(error.info);
 ```
 
 This prints:
 
-```
-EError: failed login: invalid credentials
+```log
+EError: failed login > EError: invalid credentials
 EError: invalid credentials
 { username: "obiwan", date: 1656146150075 }
 ```
 
 #### Example 4
 
-Easily extend the **EError** class to make your own error classes. You can also
-use the `toJSON()` to get a JSON representation of the error.
+Easily extend the **EError** class to make your own error classes. The `name`
+property will be automatically set correctly, and you can use `instanceof` to
+check the type hierarchy.
+
+```ts
+class CustomError extends EError {}
+
+const error = new EError("parameter x is invalid");
+const wrapped = new CustomError("bad request", error);
+
+console.log(wrapped.name);
+console.log(wrapped);
+console.log(error.name);
+console.log(error);
+
+console.log("wrapped instanceof CustomError", wrapped instanceof CustomError);
+console.log("wrapped instanceof EError", wrapped instanceof EError);
+```
+
+This prints:
+
+```log
+CustomError
+CustomError: bad request > EError: parameter x is invalid
+EError
+EError: parameter x is invalid
+wrapped instanceof CustomError true
+wrapped instanceof EError true
+```
+
+#### Example 5
+
+Use the `toJSON()` method to get a JSON representation of the error, which can
+be handy if you want to serialize an error and pass it to a monitoring system or
+database.
 
 ```ts
 class CustomRequestError extends EError<{
@@ -115,29 +151,29 @@ class CustomRequestError extends EError<{
   path: string;
 }> {}
 
-const originalError = new EError("parameter x is invalid");
-
-const error = new CustomRequestError("bad request", originalError, {
-  code: 400,
-  path: "/test-endpoint",
+const cause = new EError("parameter x is invalid");
+const error = new CustomRequestError("bad request", {
+  cause,
+  info: {
+    code: 400,
+    path: "/test-endpoint",
+  },
 });
 
-// Note: You can call error.toJSON() directly if you are dealing with EError instances
-console.log(error);
-console.log(EError.toJSON(error));
+console.log(error.toJSON());
 ```
 
 This prints:
 
-```
-CustomRequestError: bad request: parameter x is invalid
+```log
 {
   name: "CustomRequestError",
-  message: "bad request: parameter x is invalid",
-  summary: "bad request",
+  message: "bad request > EError: parameter x is invalid",
+  originalMessage: "bad request",
   cause: {
     name: "EError",
-    message: "parameter x is invalid"
+    message: "parameter x is invalid",
+    originalMessage: "parameter x is invalid",
   },
   info: {
     code: 400,
@@ -146,66 +182,68 @@ CustomRequestError: bad request: parameter x is invalid
 }
 ```
 
-#### Example 5
+### Example 6
 
-To use **private mode**, which hides the cause's error from the top-level
-error's message, pass `{ private: true }` in the error's info. This will keep
-the cause's error message hidden from the stack trace if the error is ever
-thrown. However, you can still access the `cause` by using `.cause` or
-`EError.cause()` for debugging purposes.
-
-For those who have used
-[verror](https://github.com/TritonDataCenter/node-verror#verror-rich-javascript-errors),
-this provides similar functionality to `WError`.
+Use the `findCause(type)` function to check if an error type exists somewhere in
+an error's cause chain. More utility functions are available, and are listed in
+the API reference.
 
 ```ts
-const secretError = new EError("sensitive error");
-const publicError = new EError("something went wrong", {
-  cause: secretError,
-  private: true,
-});
+class MyError extends EError {}
 
-console.log(publicError);
-console.log(EError.cause(publicError));
+const root = new MyError("root cause", new Error("internal"));
+const intermediate = new EError("intermediate cause", root);
+const top = new EError("top", intermediate);
+
+console.log(top.findCause(MyError));
 ```
 
 This prints:
 
-```
-EError: something went wrong
-EError: sensitive error
+```log
+MyError: root cause > Error: internal
 ```
 
 ## API Reference
 
 The main export from this package is the `EError` class. Use it as a
-constructor, or access static methods which can be used on error objects. The
-`EError` class is generic with the following definition:
+constructor, or access static methods which can be used on error objects.
+
+The `EError` class is generic, meaning you can specify the exact type of the
+`info` and `cause` if it suits your needs. If you are using the `EError` class
+directly, the generics are inferred, so you don't need to define them.
+Alternatively, if you are extending the `EError` class, you may want to pass on
+the generics for improved type support, or define them to restrict them.
 
 ```ts
-class EError<T extends Info, Cause extends Error> extends Error {
-  // name: string - inherited from Error
-  // message: string - inherited from Error
-  // stack?: string - inherited from Error
-  summary?: string;
-  private?: boolean;
-  cause?: Cause;
-  info?: Omit<T, "cause" | "private">;
-  // -- instance methods omitted --
-}
+export type ErrorLike = Error & { cause?: ErrorLike };
 
-type Info = { [key: string]: any };
+class EError<
+  T extends { [key: string]: any } = { [key: string]: any },
+  Cause extends ErrorLike = ErrorLike
+> {
+  // ...
+}
 ```
 
-which means you can define the type of the data stored in `info` through the
-type parameter `T`, as well as the cause type through the type parameter
-`Cause`. By default these generics are inferred, so you don't need to define
-them unless you want to restrict them.
+```ts
+import { EError, ErrorLike } from "exceptional-errors";
+
+// Pass on the generics
+class MyCustomError<
+  T extends { [key: string]: any },
+  Cause extends ErrorLike
+> extends EError<T, Cause> {
+  // ...
+}
+
+// Or define them for your error
+class MyCustomError extends EError<{ code: number }> {
+  // ...
+}
+```
 
 ### Constructors
-
-The definitions below assume that `T` is the type of the `info` property, and
-`Cause` is the type of the `cause` property.
 
 ```ts
 /**
@@ -223,99 +261,115 @@ new EError(message: string)
  */
 new EError(message: string, error: Cause)
 
-/**
- * Create an EError instance with the given message, cause and
- * any additional data passed in the `info` object. The message
- * of the causing error will be appended to this error's message
- * unless `private` is set to true in the `info` object.
- *
- * @param message The error message.
- * @param error The causing error to wrap.
- * @param info Additional data to pass to the error.
- */
-new EError(message: string, error: Cause, info: T)
 
 /**
- * Create an EError instance with the given message, cause and
- * any additional data passed in the `options` object. The message
- * of the causing error will be appended to this error's message
- * unless `private` is set to true in the `options` object.
+ * Create an EError instance with the given message and cause.
+ * The message of the causing error will be appended to this error's message.
  *
  * @param message The error message.
- * @param options Data to pass to the error, including the `cause`.
+ * @param options Data to pass to the error, such as `cause` and `info`.
  */
-new EError(message: string, options: { cause?: Cause, ...info: T })
+new EError(message: string, options: { cause?: Cause, info?: T })
 ```
 
 ### Properties on an `EError` instance
 
-| Property  | Type     | Description                                                                                                                                                                                                                                                                                                                                    |
-| --------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`    | string   | A name for the error type. This value can be used to programatically differentiate between different types of errors. If you extend the `EError` class, the name property will be the name of the new subclass.                                                                                                                                |
-| `message` | string   | The error message. Provided when the error is instantiated, and will have the message of the `cause` appended (if available) unless the `private` option is set to true.                                                                                                                                                                       |
-| `stack`   | string?  | The stack trace. Populated by the JavaScript engine.                                                                                                                                                                                                                                                                                           |
-| `cause`   | `Cause`? | A reference to the error that this error is wrapping. May be undefined if this error is not wrapping another error.                                                                                                                                                                                                                            |
-| `info`    | `T`?     | Arbitrary data that was passed to the error. May be undefined if no data was passed to the error.                                                                                                                                                                                                                                              |
-| `private` | boolean? | Indicates if the error was in private mode. In private mode, the cause's message is not appended to the error message. Enable private mode by passing `{ private: true }` in the error's info object. This is useful if you want to hide lower-level messages from being exposed when printed, but still have them accessible programatically. |
-| `summary` | string?  | The original error message without the `cause`'s error message appended. May be undefined if no `cause` is available.                                                                                                                                                                                                                          |
+| Property          | Type     | Description                                                                                                                   |
+| ----------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `name`            | string   | A name for the error type. This value can be used to programatically differentiate between different types of errors.         |
+| `message`         | string   | The error message. Provided when the error is instantiated, and will have the message of the `cause` appended (if available). |
+| `stack`           | string?  | The stack trace. Populated by the JavaScript engine.                                                                          |
+| `originalMessage` | string   | The original error message passed to the constructor, without the `cause`'s message appended.                                 |
+| `cause`           | `Cause`? | A reference to the error that this error is wrapping. May be undefined if this error is not wrapping another error.           |
+| `info`            | `T`?     | Data that was passed to the error. May be undefined if no data was passed to the error.                                       |
 
 ### Methods on an `EError` instance
 
 The following methods are available on any `EError` instance.
 
-#### `findCause(...names: string[]): Error | null`
+#### getCauses
 
-Finds the first cause in the error's cause chain that matches any of the given
-names. Returns `null` if no matching cause is found.
+```ts
+class EError {
+  // ...
+  getCauses(filter?: (error: ErrorLike) => boolean): ErrorLike[];
+}
+```
 
-#### `findCauseIf(predicate: (error: Error) => boolean): Error | null`
+Get the cause chain of the error, including the error itself. You can pass a
+filter function to filter the returned results.
 
-Find the first cause in the error's cause chain that satisfies the given
-predicate. Returns `null` if no cause satisfies the predicate.
+#### findCause, findCauses
 
-#### `findCauses(...names: string[]): Error[]`
+```ts
+class EError {
+  // ...
+  findCause<T extends Error>(type: ErrorLikeConstructor<T>): T | null;
+  findCauses<T extends Error>(type: ErrorLikeConstructor<T>): T[];
+}
+```
 
-Find all the causes in the error's cause chain that match any of the given
-names.
+Find the first occurence or all occurrences of provided error type in the
+error's cause chain, including the error itself. If not found, `null` or an
+empty array will be returned. `type` should be a class definition, such as the
+built-in `Error` class, `EError`, or a custom error class.
 
-#### `findCausesIf(predicate: (error: Error) => boolean): Error[]`
+#### findCauseByName, findCausesByName
 
-Find all the causes in the error's cause chain that satisfy the given predicate.
+```ts
+class EError {
+  // ...
+  findCauseByName(name: string): ErrorLike | null;
+  findCausesByName(name: string): ErrorLike[];
+}
+```
 
-#### `hasCause(...names: string[]): boolean`
+Find the first occurrence or all occurrences of a cause that has the given name
+in the error's cause chain, including the error itself. If not found, `null` or
+an empty array will be returned.
 
-Returns `true` if a cause that matches any of the given names exists somewhere
-in the error's cause chain.
+#### fullStack
 
-#### `fullStack(): string`
+```ts
+class EError {
+  // ...
+  fullStack(): string;
+}
+```
 
 Return the stack trace of the given error, including the stack traces of each
 cause in the cause chain.
 
-#### `toJSON(): EErrorJSON`
-
-Convert a given error into a normalised JSON output format. The shape of the
-JSON output is as follows:
+#### toJSON
 
 ```ts
+class EError {
+  // ...
+  toJSON(options: { stack?: boolean; shallow?: boolean }): EErrorJSON;
+}
+
 type EErrorJSON = {
   name: string;
   message: string;
-  summary?: string;
-  info?: any;
-  cause?: EErrorJSON;
   stack?: string[];
+  originalMessage?: string;
+  cause?: EErrorJSON;
+  info?: any;
 };
 ```
+
+Convert a given error into a normalised JSON output format. Set `stack` to true
+to include the stack trace in the output. Set `shallow` to true to only include
+the top most error (the `cause` property will be omitted).
+
+The stack trace is split by the newline character (`\n`) into an array of
+strings.
 
 ### Static methods on `EError`
 
 All methods available on an `EError` instance are also available as static
 methods on the `EError` class, with the only difference being that the first
 argument should be the `error` object you want to use it on.
-
-The static versions of the class methods are safe to use with **any** error
-object, not only errors that inherit `EError`.
 
 ## Aren't there already packages that do this?
 
@@ -336,6 +390,42 @@ feelings!
 - [error](https://www.npmjs.com/package/error)
 - [extendable-error](https://www.npmjs.com/package/extendable-error)
 - [ts-error](https://www.npmjs.com/package/ts-error)
+
+## Tests
+
+This package has been tested to be compatible with ES6 and CommonJS. To run the
+tests in this module, you'll need to clone this repository and install the
+development dependencies.
+
+To run tests for CommonJS, run the following command:
+
+```
+pnpm test
+```
+
+To run the tests for ES6 in a browser, run the following command:
+
+```
+pnpm test:browser
+```
+
+## Contributors
+
+Thanks goes to these wonderful people
+([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the
+[all-contributors](https://github.com/all-contributors/all-contributors)
+specification. Contributions of any kind welcome!
 
 ## License
 

@@ -1,7 +1,37 @@
 /**
- * Token to use when an error has an empty stack trace.
+ * An {@link Error} object that has an optional `cause` field.
+ *
+ * This interface is provided to provide compatibiliy with older
+ * versions of ECMAScript (ES2021 and below), as the `cause` field
+ * was only implemented in ES2022.
+ *
+ * @see https://github.com/tc39/proposal-error-cause
  */
-const EMPTY_STACK_TRACE = "<stack trace empty>";
+export type ErrorLike = Error & { cause?: Error };
+
+export type EErrorOptions<
+  T extends { [key: string]: any },
+  Cause extends ErrorLike
+> = {
+  /**
+   * A property indicating the specific cause of the error.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
+   */
+  cause?: Cause;
+
+  /**
+   * Additional data to store in the error.
+   */
+  info?: T;
+};
+
+/**
+ * Type for a class definition that creates an {@link ErrorLike} instance.
+ */
+export type ErrorLikeConstructor<T extends ErrorLike> = {
+  new (...args: any[]): T;
+};
 
 /**
  * Normalised JSON format for errors.
@@ -9,39 +39,38 @@ const EMPTY_STACK_TRACE = "<stack trace empty>";
 export type EErrorJSON = {
   name: string;
   message: string;
-  summary?: string;
+  originalMessage?: string;
   info?: any;
   cause?: EErrorJSON;
   stack?: string[];
 };
 
-/**
- * Arbitrary data to pass to an {@link EError} object.
- */
-export type Info = { [key: string]: any };
+const EMPTY_STACK_TRACE = "<stack trace empty>";
 
 /**
  * An extension of the built-in {@link Error} class that allows you to wrap an
  * existing error as the cause and add structured data to help with debugging.
  *
- * @template T The shape of any structured data to pass to the error, which can be accessed through the `.info` property. Defaults to the arbitrary type {@link Info}.
- * @template Cause The error type that this error may wrap as a cause, which can be accessed through the `.cause` property. Must extend the built-in type {@link Error}.
+ * @template T The shape of any structured data to pass to the error. Defaults to the arbitrary type `{ [key: string]: any }`.
+ * @template Cause The error type that this error may wrap as a cause. Must extend the {@link ErrorLike} type.
  */
 export class EError<
-  T extends Info = Info,
-  Cause extends Error = Error
+  T extends { [key: string]: any } = { [key: string]: any },
+  Cause extends ErrorLike = ErrorLike
 > extends Error {
   /**
-   * Provides a short version of the error message without
-   * the cause chain if the error is not {@link private}.
+   * The original message passed to the error constructor.
    */
-  readonly summary?: string;
+  readonly originalMessage: string;
 
   /**
-   * Indicates that the error's cause chain may contain sensitive information.
-   * The cause's message will not be visible in the {@link message} property.
+   * A property indicating the specific cause of the error.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
    */
-  readonly private?: boolean;
+  override readonly cause?: Cause;
+
+  readonly info?: T;
 
   /**
    * Create a plain {@link EError} instance with the given message.
@@ -53,70 +82,55 @@ export class EError<
    * The message of the causing error will be appended to this error's message.
    *
    * @param message The error message.
-   * @param error The causing error to wrap.
+   * @param cause The causing error to wrap.
    */
-  constructor(message: string, error: Cause);
+  constructor(message: string, cause: Cause);
 
   /**
-   * Create an {@link EError} instance with the given message, cause and
-   * any additional data passed in the `info` object. The message of the
-   * causing error will be appended to this error's message unless `private`
-   * is set to true in the `info` object.
+   * Create an {@link EError} instance with the given message and cause.
+   * The message of the causing error will be appended to this error's message.
    *
    * @param message The error message.
-   * @param error The causing error to wrap.
-   * @param info Additional data to pass to the error.
+   * @param options Data to pass to the error, such as `cause` and `info`.
    */
-  constructor(message: string, error: Cause, info: T & { private?: boolean });
+  constructor(message: string, options: EErrorOptions<T, Cause>);
 
-  /**
-   * Create an {@link EError} instance with the given message, cause and
-   * any additional data passed in the `options` object. The message of the
-   * causing error will be appended to this error's message unless `private`
-   * is set to true in the `options` object.
-   *
-   * @param message The error message.
-   * @param options Data to pass to the error, including the `cause`.
-   */
+  // Implementation
   constructor(
     message: string,
-    options: T & { cause?: Cause; private?: boolean }
-  );
-
-  constructor(
-    message: string,
-    causeOrOptions?: Cause | (T & { cause?: Cause; private?: boolean }),
-    info?: T & { private?: boolean }
+    optionsOrCause?: EErrorOptions<T, Cause> | Cause
   ) {
     let _cause: Cause | undefined = undefined;
-    let _private: boolean | undefined = undefined;
-    let _info: Omit<T, "cause" | "private"> | undefined = undefined;
+    let _info: T | undefined = undefined;
 
-    // Normalise arguments
-    if (causeOrOptions instanceof Error) {
-      _cause = causeOrOptions;
-      if (info) {
-        const { cause, private: isPrivate, ...rest } = info;
-        _private = isPrivate;
-        _info = rest;
-      }
-    } else if (causeOrOptions) {
-      const { cause, private: isPrivate, ...rest } = causeOrOptions;
+    // Normalise options
+    if (optionsOrCause instanceof Error) {
+      _cause = optionsOrCause;
+    } else if (optionsOrCause) {
+      const { cause, info } = optionsOrCause;
       _cause = cause;
-      _private = isPrivate;
-      _info = rest;
+      _info = info;
     }
 
-    if (_private || !_cause) {
+    // Construct message
+    if (!_cause) {
       super(message);
     } else {
-      super(`${message}: ${_cause.message}`);
-      this.summary = message;
+      const causes = EError.getCauses(_cause);
+      const messages = [message].concat(
+        causes.map((cause) => {
+          if (cause instanceof EError)
+            return `${cause.name}: ${cause.originalMessage}`;
+          return `${cause.name}: ${cause.message}`;
+        })
+      );
+      super(messages.join(" > "));
     }
 
-    if (_private) this.private = true;
+    // Set properties
+    this.originalMessage = message;
     if (_cause) this.cause = _cause;
-    if (_info && Object.keys(_info).length > 0) this.info = _info;
+    if (_info) this.info = _info;
 
     // Provides compatibility with instanceof
     Object.setPrototypeOf(this, new.target.prototype);
@@ -129,238 +143,161 @@ export class EError<
   }
 
   /**
-   * Get the cause from an Error object if it exists.
-   * If it does not exist, `null` will be returned.
+   * Get the cause chain of the error, including the error itself.
    *
-   * @param error The error to get the cause from.
+   * @param error The error to get the cause chain from.
+   * @param filter A function to filter the causes to return. Return `true` if an error in the chain should be included in the result.
    */
-  static cause<T extends EError>(error: T): NonNullable<T["cause"]> | null;
-  static cause(error: Error): Error | null;
-  static cause(error: Error) {
-    const cause = (error as any).cause;
-    if (cause instanceof Error) return cause;
-    return null;
-  }
-
-  readonly cause?: Cause;
-
-  /**
-   * Get the `info` property from an Error object if it exists.
-   * If it does not exist, `null` will be returned.
-   *
-   * @param error The error to get the `info` object from.
-   */
-  static info<T extends EError>(error: T): NonNullable<T["info"]> | null;
-  static info(error: Error): unknown | null;
-  static info(error: Error) {
-    return (error as any).info ?? null;
-  }
-
-  readonly info?: Omit<T, "cause" | "private">;
-
-  /**
-   * Find the first cause in the error's cause chain that matches the given name.
-   *
-   * @param error The error to find the cause in.
-   * @param name The cause name to match.
-   */
-  static findCause(error: Error, name: string): Error | null;
-
-  /**
-   * Find the first cause in the error's cause chain that matches one of the given names.
-   *
-   * @param error The error to find the cause in.
-   * @param names The cause names to match.
-   */
-  static findCause(error: Error, ...names: string[]): Error | null;
-
-  static findCause(error: Error, ...names: string[]): Error | null {
-    const causeNames = new Set(names);
-    let errorCause: Error | null = error;
-    while (errorCause) {
-      if (causeNames.has(errorCause.name)) return errorCause;
-      errorCause = EError.cause(errorCause);
+  static getCauses(
+    error: ErrorLike | undefined,
+    filter?: (error: ErrorLike) => boolean
+  ): ErrorLike[] {
+    const causes: ErrorLike[] = [];
+    let currentError: ErrorLike | undefined = error;
+    while (currentError) {
+      if (!filter || filter(currentError)) causes.push(currentError);
+      currentError = currentError.cause;
     }
-    return null;
-  }
-
-  /**
-   * Find the first cause in the error's cause chain that matches the given name.
-   *
-   * @param name The cause name to match.
-   */
-  findCause(name: string): Error | null;
-
-  /**
-   * Find the first cause in the error's cause chain that matches one of the given names.
-   *
-   * @param names The cause names to match.
-   */
-  findCause(...names: string[]): Error | null;
-
-  findCause(...names: string[]) {
-    return EError.findCause(this, ...names);
-  }
-
-  /**
-   * Find the first cause in the error's cause chain that satisfies the given predicate.
-   * Returns `null` if no cause satisfies the predicate.
-   *
-   * @param error The error to find the cause in.
-   * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
-   */
-  static findCauseIf(error: Error, predicate: (error: Error) => boolean) {
-    let errorCause: Error | null = error;
-    while (errorCause) {
-      if (predicate(errorCause)) return errorCause;
-      errorCause = EError.cause(errorCause);
-    }
-    return null;
-  }
-
-  /**
-   * Find the first cause in the error's cause chain that satisfies the given predicate.
-   * Returns `null` if no cause satisfies the predicate.
-   *
-   * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
-   */
-  findCauseIf(predicate: (error: Error) => boolean) {
-    return EError.findCauseIf(this, predicate);
-  }
-
-  /**
-   * Find all the causes in the error's cause chain that match the given name.
-   *
-   * @param error The error to find the cause in.
-   * @param name The cause name to match.
-   */
-  static findCauses(error: Error, name: string): Error[];
-
-  /**
-   * Find all the causes in the error's cause chain that match any of the given names.
-   *
-   * @param error The error to find the cause in.
-   * @param names The cause names to match.
-   */
-  static findCauses(error: Error, ...names: string[]): Error[];
-
-  static findCauses(error: Error, ...names: string[]) {
-    const causeNames = new Set(names);
-    const causes: Error[] = [];
-
-    let errorCause: Error | null = error;
-    while (errorCause) {
-      if (causeNames.has(errorCause.name)) causes.push(errorCause);
-      errorCause = EError.cause(errorCause);
-    }
-
     return causes;
   }
 
   /**
-   * Find all the causes in the error's cause chain that match the given name.
+   * Get the cause chain of the error, including the error itself.
    *
-   * @param name The cause name to match.
+   * @param filter A function to filter the causes to return. Return `true` if an error in the chain should be included in the result.
    */
-  findCauses(name: string): Error[];
-
-  /**
-   * Find all the causes in the error's cause chain that match any of the given names.
-   *
-   * @param names The cause names to match.
-   */
-  findCauses(...names: string[]): Error[];
-
-  findCauses(...names: string[]) {
-    return EError.findCauses(this, ...names);
+  getCauses(filter?: (error: ErrorLike) => boolean): ErrorLike[] {
+    return EError.getCauses(this, filter);
   }
 
   /**
-   * Find all the causes in the error's cause chain that satisfy the given predicate.
+   * Find the first occurence of provided error type in the error's cause chain,
+   * including the error itself. If not found, `null` will be returned.
    *
-   * @param error The error to find the cause in.
-   * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
+   * @param error The error to get the cause chain from.
+   * @param type The error type. Must be a class definition, such as {@link Error}.
    */
-  static findCausesIf(
-    error: Error,
-    predicate: (error: Error) => boolean
-  ): Error[] {
-    const causes: Error[] = [];
-
-    let errorCause: Error | null = error;
+  static findCause<T extends Error>(
+    error: ErrorLike | undefined,
+    type: ErrorLikeConstructor<T>
+  ): T | null {
+    let errorCause: ErrorLike | undefined = error;
     while (errorCause) {
-      if (predicate(errorCause)) causes.push(errorCause);
-      errorCause = EError.cause(errorCause);
+      if (errorCause instanceof type && errorCause.name === type.name)
+        return errorCause;
+      errorCause = (errorCause as ErrorLike).cause;
     }
-
-    return causes;
+    return null;
   }
 
   /**
-   * Find all the causes in the error's cause chain that satisfy the given predicate.
+   * Find the first occurence of provided error type in the error's cause chain
+   * including the error itself. If not found, `null` will be returned.
    *
-   * @param predicate The predicate to run on each cause in the cause chain. Return `true` to return the cause.
+   * @param type The error type. Must be a class definition, such as {@link Error}.
    */
-  findCausesIf(predicate: (error: Error) => boolean) {
-    return EError.findCausesIf(this, predicate);
+  findCause<T extends Error>(type: ErrorLikeConstructor<T>): T | null {
+    return EError.findCause(this, type);
   }
 
   /**
-   * Returns `true` if a cause with the given name exists somewhere in the error's cause chain.
+   * Find all occurences of the provided error type in the error's cause chain,
+   * including the error itself.
    *
-   * @param error The error to find the cause in.
-   * @param name The name of the cause to match.
+   * @param error The error to get the cause chain from.
+   * @param type The error type. Must be a class definition, such as {@link Error}.
    */
-  static hasCause(error: Error, name: string): boolean;
-
-  /**
-   * Returns `true` if a cause that matches any of the given names exists somewhere in the error's cause chain.
-   *
-   * @param error The error to find the cause in.
-   * @param names The name of the cause to match.
-   */
-  static hasCause(error: Error, ...names: string[]): boolean;
-
-  static hasCause(error: Error, ...names: string[]) {
-    return EError.findCause(error, ...names) !== null;
+  static findCauses<T extends Error>(
+    error: ErrorLike,
+    type: ErrorLikeConstructor<T>
+  ): T[] {
+    return EError.getCauses(
+      error,
+      (e) => e instanceof type && e.name === type.name
+    ) as T[];
   }
 
   /**
-   * Returns `true` if a cause with the given name exists somewhere in the error's cause chain.
+   * Find all occurences of the provided error type in the error's cause chain,
+   * including the error itself.
    *
-   * @param name The name of the cause to match.
+   * @param type The error type. Must be a class definition, such as {@link Error}.
    */
-  hasCause(name: string): boolean;
-
-  /**
-   * Returns `true` if a cause that matches any of the given names exists somewhere in the error's cause chain.
-   *
-   * @param names The name of the cause to match.
-   */
-  hasCause(...names: string[]): boolean;
-
-  hasCause(...names: string[]) {
-    return EError.hasCause(this, ...names);
+  findCauses<T extends Error>(type: ErrorLikeConstructor<T>): T[] {
+    return EError.getCauses(
+      this,
+      (e) => e instanceof type && e.name === type.name
+    ) as T[];
   }
 
   /**
-   * Return the stack trace of the given error, including the stack traces of each cause in the cause chain.
+   * Find the first occurrence of a cause that has the given name
+   * in the error's cause chain, including the error itself.
+   * If not found, `null` will be returned.
    *
-   * @param error The error to return the stack trace for.
+   * @param error The error to get the cause chain from.
+   * @param name The name of the error to find.
    */
-  static fullStack(error: Error): string {
-    const causeError = EError.cause(error);
-    if (causeError)
-      return (
-        (error.stack ?? EMPTY_STACK_TRACE) +
-        "\n\n" +
-        `caused by: ${EError.fullStack(causeError)}`
-      );
-    return error.stack ?? EMPTY_STACK_TRACE;
+  static findCauseByName(error: ErrorLike, name: string): ErrorLike | null {
+    let errorCause: ErrorLike | undefined = error;
+    while (errorCause) {
+      if (errorCause instanceof Error && errorCause.name === name)
+        return errorCause;
+      errorCause = errorCause.cause;
+    }
+    return null;
   }
 
   /**
-   * Return the stack trace of the given error, including the stack traces of each cause in the cause chain.
+   * Find the first occurrence of a cause that has the given name
+   * in the error's cause chain, including the error itself.
+   * If not found, `null` will be returned.
+   *
+   * @param name The name of the error to find.
+   */
+  findCauseByName(name: string): ErrorLike | null {
+    return EError.findCauseByName(this, name);
+  }
+
+  /**
+   * Find all occurrences of a cause that has the given name
+   * in the error's cause chain, including the error itself.
+   * If not found, `null` will be returned.
+   *
+   * @param error The error to get the cause chain from.
+   * @param name The name of the error to find.
+   */
+  static findCausesByName(error: ErrorLike, name: string): ErrorLike[] {
+    return EError.getCauses(error, (e) => e.name === name);
+  }
+
+  /**
+   * Find all occurrences of a cause that has the given name
+   * in the error's cause chain, including the error itself.
+   * If not found, `null` will be returned.
+   *
+   * @param name The name of the error to find.
+   */
+  findCausesByName(name: string): ErrorLike[] {
+    return EError.findCausesByName(this, name);
+  }
+
+  /**
+   * Return the stack trace of the error, including the stack traces
+   * of each cause in the cause chain.
+   *
+   * @param error The error to get the full stack trace for.
+   */
+  static fullStack(error: ErrorLike): string {
+    let stack = error.stack ?? EMPTY_STACK_TRACE;
+    if (error.cause)
+      stack += "\n\n" + `caused by: ${EError.fullStack(error.cause)}`;
+    return stack;
+  }
+
+  /**
+   * Return the stack trace of the error, including the stack traces
+   * of each cause in the cause chain.
    */
   fullStack() {
     return EError.fullStack(this);
@@ -370,13 +307,14 @@ export class EError<
    * Convert a given error into a normalised JSON output format.
    *
    * @param error The error to convert to JSON.
+   * @param options Output options.
    */
   static toJSON(
-    error: Error,
+    error: ErrorLike,
     options: {
       /** If `true`, includes the stack trace in the output. */
       stack?: boolean;
-      /** If `true`, only the top most error will be converted to JSON. The `cause` property will not be included. */
+      /** If `true`, only the top most error will be converted to JSON. The `cause` property will be ommitted. */
       shallow?: boolean;
     } = {}
   ): EErrorJSON {
@@ -387,20 +325,16 @@ export class EError<
       message: error.message,
     };
 
-    if (error instanceof EError && error.summary) {
-      json.summary = error.summary;
+    if (error instanceof EError && error.originalMessage) {
+      json.originalMessage = error.originalMessage;
     }
 
-    if (!shallow) {
-      const errorCause = EError.cause(error);
-      if (errorCause) {
-        json.cause = EError.toJSON(errorCause, options);
-      }
+    if (!shallow && error.cause) {
+      json.cause = EError.toJSON(error.cause, options);
     }
 
-    const errorInfo = EError.info(error);
-    if (errorInfo) {
-      json.info = errorInfo;
+    if (error instanceof EError && error.info) {
+      json.info = error.info;
     }
 
     if (stack) {
@@ -412,9 +346,18 @@ export class EError<
   }
 
   /**
-   * Convert the error into a normalised JSON output format.
+   * Convert a given error into a normalised JSON output format.
+   *
+   * @param options Output options.
    */
-  toJSON(options: { stack?: boolean; shallow?: boolean } = {}) {
+  toJSON(
+    options: {
+      /** If `true`, includes the stack trace in the output. */
+      stack?: boolean;
+      /** If `true`, only the top most error will be converted to JSON. The `cause` property will not be included. */
+      shallow?: boolean;
+    } = {}
+  ): EErrorJSON {
     return EError.toJSON(this, options);
   }
 }
