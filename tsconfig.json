@@ -18,8 +18,7 @@
     "noErrorTruncation": true,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "module": "CommonJS",
-    "target": "ES6"
+    "target": "ES2022"
   },
   "exclude": ["node_modules"]
 }
