@@ -247,22 +247,21 @@ class MyCustomError extends EError<{ code: number }> {
 
 ```ts
 /**
- * Create a plain EError instance with an empty message.
+ * Create an EError instance with an empty message.
  *
- * This is not recommended, but is provided as a option for when
+ * This is not recommended, but is provided as an option for when
  * you extend the class and you don't need to specify a message
  * if the class name itself gives enough context.
  */
 new EError()
 
 /**
- * Create a plain EError instance with the given message.
+ * Create an EError instance with the given message.
  */
 new EError(message: string)
 
 /**
- * Create a plain EError instance with the given cause
- * and an empty message.
+ * Create an EError instance with the given cause and an empty message.
  */
 new EError(error: Cause)
 
