@@ -48,6 +48,11 @@ describe(".message", () => {
     expect(error.message).equals("my error message");
   });
 
+  it("new EError(error) has the correct message", () => {
+    const error = new EError(new Error("my error message"));
+    expect(error.message).equals("Error: my error message");
+  });
+
   it("new EError(message, error) has the correct message", () => {
     const error = new EError("my error message", new Error("inner"));
     expect(error.message).equals(`my error message > Error: inner`);
@@ -72,17 +77,29 @@ describe(".message", () => {
       `top level > CustomError: my error message > EError: inner`
     );
   });
+
+  it("new CustomError(nested errors) has the correct message", () => {
+    const error = new CustomError(
+      new EError("middle", new EError(new EError("inner")))
+    );
+    expect(error.message).equals(`EError: middle > EError > EError: inner`);
+  });
 });
 
 describe(".originalMessage", () => {
   it("new EError() has empty originalMessage", () => {
     const error = new EError();
-    expect(error.originalMessage).is.undefined;
+    expect(error.originalMessage).equals("");
   });
 
   it("new EError(message) has correct originalMessage", () => {
     const error = new EError("my error message");
     expect(error.originalMessage).equals("my error message");
+  });
+
+  it("new EError(error) has correct originalMessage", () => {
+    const error = new EError(new Error("my error message"));
+    expect(error.originalMessage).equals("");
   });
 
   it("new EError(message, error) has correct originalMessage", () => {
@@ -137,7 +154,7 @@ describe(".stack", () => {
   });
 });
 
-describe("getCauses()", () => {
+describe("EError.getCauses()", () => {
   it("finds all causes", () => {
     const root = new EError("root");
     const inner = new CustomError("inner", root);
@@ -157,7 +174,7 @@ describe("getCauses()", () => {
   });
 });
 
-describe("findCause()", () => {
+describe("EError.findCause()", () => {
   it("returns the right cause when it exists at the top level", () => {
     const error = new CustomError("error", new EError());
     const cause = error.findCause(CustomError);
@@ -180,7 +197,7 @@ describe("findCause()", () => {
   });
 });
 
-describe("findCauses()", () => {
+describe("EError.findCauses()", () => {
   it("returns the right causes when they exist", () => {
     const other = new EError("other");
     const target = new CustomError("target", other);
@@ -203,7 +220,7 @@ describe("findCauses()", () => {
   });
 });
 
-describe("findCauseByName()", () => {
+describe("EError.findCauseByName()", () => {
   it("returns the right cause when it exists at the top level", () => {
     const error = new CustomError("error", new EError());
     const cause = error.findCauseByName("CustomError");
@@ -226,7 +243,7 @@ describe("findCauseByName()", () => {
   });
 });
 
-describe("findCausesByName()", () => {
+describe("EError.findCausesByName()", () => {
   it("returns the right causes when they exist", () => {
     const other = new EError("other");
     const target = new CustomError("target", other);
@@ -249,7 +266,7 @@ describe("findCausesByName()", () => {
   });
 });
 
-describe("fullStack()", () => {
+describe("EError.fullStack()", () => {
   it("EError.fullStack(error) shows correct stack trace", () => {
     const error = new EError("my error message");
     const lines = error.fullStack().split("\n");
@@ -268,7 +285,7 @@ describe("fullStack()", () => {
   });
 });
 
-describe("toJSON()", () => {
+describe("EError.toJSON()", () => {
   it("EErorr(new Error()).toJSON() shows correct output", () => {
     expect(EError.toJSON(new Error("my error message"))).to.deep.equal({
       name: "Error",
@@ -296,6 +313,26 @@ describe("toJSON()", () => {
         name: "CustomError",
         message: "cause",
         originalMessage: "cause",
+      },
+    });
+  });
+
+  it("new EError(nested causes).toJSON() shows correct output", () => {
+    const cause = new CustomError(new EError("nested"));
+    const error = new EError("my error message", cause);
+    expect(error.toJSON()).to.deep.equal({
+      name: "EError",
+      message: "my error message > CustomError > EError: nested",
+      originalMessage: "my error message",
+      cause: {
+        name: "CustomError",
+        message: "EError: nested",
+        originalMessage: "",
+        cause: {
+          name: "EError",
+          message: "nested",
+          originalMessage: "nested",
+        },
       },
     });
   });
@@ -389,12 +426,26 @@ describe("stringify", () => {
     expect(String(error)).to.equal("EError: my error message");
   });
 
+  it("new EError(cause) shows correct message when stringified", () => {
+    const error = new EError(new Error("my error message"));
+    expect(String(error)).to.equal("EError: Error: my error message");
+  });
+
   it("new EError(message, cause) shows correct message chain when stringified", () => {
     const root = new EError("root");
     const inner = new EError("inner error", root);
     const error = new EError("my error message", inner);
     expect(String(error)).to.equal(
       "EError: my error message > EError: inner error > EError: root"
+    );
+  });
+
+  it("new EError(nested causes) shows correct message when stringified", () => {
+    const error = new CustomError(
+      new EError("middle", new EError(new EError("my error message")))
+    );
+    expect(String(error)).to.equal(
+      "CustomError: EError: middle > EError > EError: my error message"
     );
   });
 });

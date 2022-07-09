@@ -10,10 +10,6 @@ This package aims to make it **easier** and **quicker** for the developer to
 create custom errors and wrap existing errors with context, so that when they
 appear, you can work out why.
 
-Also highly recommend checking out this article on errors and exception handling
-best-practices, which helped drive some of the design decisions in this package:
-[Error Handling in Node.js (Joyent)](https://console.joyent.com/node-js/production/design/errors)
-
 ## Features
 
 - Zero dependencies
@@ -218,7 +214,9 @@ Alternatively, if you are extending the `EError` class, you may want to pass on
 the generics for improved type support, or define them to restrict them.
 
 ```ts
-export type ErrorLike = Error & { cause?: ErrorLike };
+export interface ErrorLike extends Error {
+  cause?: Error;
+}
 
 class EError<
   T extends { [key: string]: any } = { [key: string]: any },
@@ -239,7 +237,7 @@ class MyCustomError<
   // ...
 }
 
-// Or define them for your error
+// Or define them explicitly for your error
 class MyCustomError extends EError<{ code: number }> {
   // ...
 }
@@ -249,9 +247,24 @@ class MyCustomError extends EError<{ code: number }> {
 
 ```ts
 /**
+ * Create a plain EError instance with an empty message.
+ *
+ * This is not recommended, but is provided as a option for when
+ * you extend the class and you don't need to specify a message
+ * if the class name itself gives enough context.
+ */
+new EError()
+
+/**
  * Create a plain EError instance with the given message.
  */
 new EError(message: string)
+
+/**
+ * Create a plain EError instance with the given cause
+ * and an empty message.
+ */
+new EError(error: Cause)
 
 /**
  * Create an EError instance with the given message and cause.

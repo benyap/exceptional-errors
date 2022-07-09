@@ -48,6 +48,11 @@ describe("es2022", () => {
       expect(error.message).equals("my error message");
     });
 
+    it("new EError(error) has the correct message", () => {
+      const error = new EError(new Error("my error message"));
+      expect(error.message).equals("Error: my error message");
+    });
+
     it("new EError(message, error) has the correct message", () => {
       const error = new EError("my error message", new Error("inner"));
       expect(error.message).equals(`my error message > Error: inner`);
@@ -72,17 +77,29 @@ describe("es2022", () => {
         `top level > CustomError: my error message > EError: inner`
       );
     });
+
+    it("new CustomError(nested errors) has the correct message", () => {
+      const error = new CustomError(
+        new EError("middle", new EError(new EError("inner")))
+      );
+      expect(error.message).equals(`EError: middle > EError > EError: inner`);
+    });
   });
 
   describe(".originalMessage", () => {
     it("new EError() has empty originalMessage", () => {
       const error = new EError();
-      expect(error.originalMessage).is.undefined;
+      expect(error.originalMessage).equals("");
     });
 
     it("new EError(message) has correct originalMessage", () => {
       const error = new EError("my error message");
       expect(error.originalMessage).equals("my error message");
+    });
+
+    it("new EError(error) has correct originalMessage", () => {
+      const error = new EError(new Error("my error message"));
+      expect(error.originalMessage).equals("");
     });
 
     it("new EError(message, error) has correct originalMessage", () => {
@@ -306,6 +323,26 @@ describe("es2022", () => {
       });
     });
 
+    it("new EError(nested causes).toJSON() shows correct output", () => {
+      const cause = new CustomError(new EError("nested"));
+      const error = new EError("my error message", cause);
+      expect(error.toJSON()).to.deep.equal({
+        name: "EError",
+        message: "my error message > CustomError > EError: nested",
+        originalMessage: "my error message",
+        cause: {
+          name: "CustomError",
+          message: "EError: nested",
+          originalMessage: "",
+          cause: {
+            name: "EError",
+            message: "nested",
+            originalMessage: "nested",
+          },
+        },
+      });
+    });
+
     it("new EError(message, cause, info).toJSON() shows correct output", () => {
       const cause = new CustomError("cause");
       const error = new EError("my error message", {
@@ -397,12 +434,26 @@ describe("es2022", () => {
       expect(String(error)).to.equal("EError: my error message");
     });
 
+    it("new EError(cause) shows correct message when stringified", () => {
+      const error = new EError(new Error("my error message"));
+      expect(String(error)).to.equal("EError: Error: my error message");
+    });
+
     it("new EError(message, cause) shows correct message chain when stringified", () => {
       const root = new EError("root");
       const inner = new EError("inner error", root);
       const error = new EError("my error message", inner);
       expect(String(error)).to.equal(
         "EError: my error message > EError: inner error > EError: root"
+      );
+    });
+
+    it("new EError(nested causes) shows correct message when stringified", () => {
+      const error = new CustomError(
+        new EError("middle", new EError(new EError("my error message")))
+      );
+      expect(String(error)).to.equal(
+        "CustomError: EError: middle > EError > EError: my error message"
       );
     });
   });

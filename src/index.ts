@@ -7,7 +7,9 @@
  *
  * @see https://github.com/tc39/proposal-error-cause
  */
-export type ErrorLike = Error & { cause?: Error };
+export interface ErrorLike extends Error {
+  cause?: Error;
+}
 
 export type EErrorOptions<
   T extends { [key: string]: any },
@@ -74,9 +76,24 @@ export class EError<
   readonly info?: T;
 
   /**
+   * Create a plain {@link EError} instance with an empty message.
+   *
+   * This is not recommended, but is provided as a option for when
+   * you extend the class and you don't need to specify a message
+   * if the class name itself gives enough context.
+   */
+  constructor();
+
+  /**
    * Create a plain {@link EError} instance with the given message.
    */
   constructor(message: string);
+
+  /**
+   * Create a plain {@link EError} instance with the given cause
+   * and an empty message.
+   */
+  constructor(cause: Cause);
 
   /**
    * Create an {@link EError} instance with the given message and cause.
@@ -98,38 +115,54 @@ export class EError<
 
   // Implementation
   constructor(
-    message: string,
+    messageOrCause: string | Cause = "",
     optionsOrCause?: EErrorOptions<T, Cause> | Cause
   ) {
+    let _message = "";
     let _cause: Cause | undefined = undefined;
     let _info: T | undefined = undefined;
 
-    // Normalise options
-    if (optionsOrCause instanceof Error) {
+    // Normalise constructor arguments
+    if (messageOrCause instanceof Error) {
+      // EError(error)
+      _message = "";
+      _cause = messageOrCause;
+    } else if (optionsOrCause instanceof Error) {
+      // EError(message, error)
+      _message = messageOrCause;
       _cause = optionsOrCause;
     } else if (optionsOrCause) {
+      // EError(message, options)
+      _message = messageOrCause;
       const { cause, info } = optionsOrCause;
       _cause = cause;
       _info = info;
+    } else {
+      // EError() or EError(message)
+      _message = messageOrCause;
     }
 
     // Construct message
     if (!_cause) {
-      super(message);
+      super(_message);
     } else {
       const causes = EError.getCauses(_cause);
-      const messages = [message].concat(
-        causes.map((cause) => {
-          if (cause instanceof EError)
-            return `${cause.name}: ${cause.originalMessage}`;
-          return `${cause.name}: ${cause.message}`;
-        })
-      );
+      const messages: string[] = [];
+      if (_message) messages.push(_message);
+      causes.forEach((cause) => {
+        const messageString = [cause.name];
+        if (cause instanceof EError) {
+          if (cause.originalMessage) messageString.push(cause.originalMessage);
+        } else {
+          if (cause.message) messageString.push(cause.message);
+        }
+        messages.push(messageString.join(": "));
+      });
       super(messages.join(" > "));
     }
 
     // Set properties
-    this.originalMessage = message;
+    this.originalMessage = _message;
     if (_cause) this.cause = _cause;
     if (_info) this.info = _info;
 
@@ -326,7 +359,7 @@ export class EError<
       message: error.message,
     };
 
-    if (error instanceof EError && error.originalMessage) {
+    if (error instanceof EError && typeof error.originalMessage === "string") {
       json.originalMessage = error.originalMessage;
     }
 
