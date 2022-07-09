@@ -1,5 +1,18 @@
 
 
+## [0.3.0](https://github.com/benyap/exceptional-errors/compare/0.2.1...0.3.0) (2022-07-09)
+
+
+### Features
+
+* add constructor with no arguments ([fd8a0c2](https://github.com/benyap/exceptional-errors/commit/fd8a0c2e314d9d1c925f20f62adae319049de1aa))
+
+
+### Internal
+
+* **deps:** update dependency release-it to v15.1.1 ([#6](https://github.com/benyap/exceptional-errors/issues/6)) ([be3ea58](https://github.com/benyap/exceptional-errors/commit/be3ea5876ea9df8aacc3bbee7feb9b1c4bde77c1))
+* **deps:** update dependency serve to v13.0.4 ([#7](https://github.com/benyap/exceptional-errors/issues/7)) ([5ee1c57](https://github.com/benyap/exceptional-errors/commit/5ee1c57a5e68f730c69b48385ccc2021ceed3ef3))
+
 ## [0.2.1](https://github.com/benyap/exceptional-errors/compare/0.2.0...0.2.1) (2022-06-28)
 
 
