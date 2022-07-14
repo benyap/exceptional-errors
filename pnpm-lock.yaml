@@ -13,7 +13,7 @@ specifiers:
   prettier: 2.7.1
   release-it: 15.1.1
   rimraf: 3.0.2
-  serve: 14.0.0
+  serve: 14.0.1
   typescript: 4.7.4
   wait-on: 6.0.1
 
@@ -30,7 +30,7 @@ devDependencies:
   prettier: 2.7.1
   release-it: 15.1.1
   rimraf: 3.0.2
-  serve: 14.0.0
+  serve: 14.0.1
   typescript: 4.7.4
   wait-on: 6.0.1
 
@@ -840,6 +840,13 @@ packages:
       loupe: 2.3.4
       pathval: 1.1.1
       type-detect: 4.0.8
+    dev: true
+
+  /chalk-template/0.4.0:
+    resolution: {integrity: sha512-/ghrgmhfY8RaSdeo43hNXxpoHAtxdbskUHjPpfqUWGttFgycUhYPGx3YZBCnUCvOa7Doivn1IZec3DEGFoMgLg==}
+    engines: {node: '>=12'}
+    dependencies:
+      chalk: 4.1.2
     dev: true
 
   /chalk/2.4.2:
@@ -3672,8 +3679,8 @@ packages:
       range-parser: 1.2.0
     dev: true
 
-  /serve/14.0.0:
-    resolution: {integrity: sha512-Q29Asg2zBhdSepu18Ci63yWUZbCnqEvSNNy1BIpju+7pBOQ1qQ5qHDpRk+tj6RZ+wqBvEqyJWNZKAQAtXlA5fg==}
+  /serve/14.0.1:
+    resolution: {integrity: sha512-tNGwxl27FwA8TbmMQqN0jTaSx8/trL532qZsJHX1VdiEIjjtMJHCs7AFS6OvtC7cTHOvmjXqt5yczejU6CV2Xg==}
     engines: {node: '>= 14'}
     hasBin: true
     dependencies:
@@ -3682,6 +3689,7 @@ packages:
       arg: 5.0.2
       boxen: 7.0.0
       chalk: 5.0.1
+      chalk-template: 0.4.0
       clipboardy: 3.0.0
       compression: 1.7.4
       is-port-reachable: 4.0.0
