@@ -4,7 +4,7 @@ specifiers:
   '@commitlint/cli': 17.0.3
   '@commitlint/config-conventional': 17.0.3
   '@release-it/conventional-changelog': 5.0.0
-  '@types/chai': 4.3.2
+  '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
   concurrently: 7.3.0
@@ -21,7 +21,7 @@ devDependencies:
   '@commitlint/cli': 17.0.3
   '@commitlint/config-conventional': 17.0.3
   '@release-it/conventional-changelog': 5.0.0_release-it@15.2.0
-  '@types/chai': 4.3.2
+  '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
   concurrently: 7.3.0
@@ -479,8 +479,8 @@ packages:
       '@types/responselike': 1.0.0
     dev: true
 
-  /@types/chai/4.3.2:
-    resolution: {integrity: sha512-TNeRJV5O1L0s7NM4Xg9q8HPbLnyAMQ9twPMul53hWRld//NnjV/VSw7InBCNrPJyWBPhyoSLlzR2mR9Fq5nJTg==}
+  /@types/chai/4.3.3:
+    resolution: {integrity: sha512-hC7OMnszpxhZPduX+m+nrx+uFoLkWOMiR4oa/AZF3MuSETYTZmFfJAHqZEM8MVlvfG7BEUcgvtwoCTxBp6hm3g==}
     dev: true
 
   /@types/http-cache-semantics/4.0.1:
