@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@commitlint/cli': 17.0.3
   '@commitlint/config-conventional': 17.0.3
-  '@release-it/conventional-changelog': 5.0.0
+  '@release-it/conventional-changelog': 5.1.0
   '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
@@ -20,7 +20,7 @@ specifiers:
 devDependencies:
   '@commitlint/cli': 17.0.3
   '@commitlint/config-conventional': 17.0.3
-  '@release-it/conventional-changelog': 5.0.0_release-it@15.3.0
+  '@release-it/conventional-changelog': 5.1.0_release-it@15.3.0
   '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
@@ -411,16 +411,17 @@ packages:
       config-chain: 1.1.13
     dev: true
 
-  /@release-it/conventional-changelog/5.0.0_release-it@15.3.0:
-    resolution: {integrity: sha512-YAvGgxA8cIQSbmyHmAmLMwzCkNP74upLST8jFuDJTI+AVfK2Grp2HbZu0/NeV3sHYD20sT8YMzNVUeRxNlyHeg==}
+  /@release-it/conventional-changelog/5.1.0_release-it@15.3.0:
+    resolution: {integrity: sha512-o55D822tVIoldUDj1Fp1KvenVREcEEjYOyuVNwRVnTcExFN6nWUPrH05q7Y8opT23N5snuCwPJ5bzLPEcpBvRg==}
     engines: {node: '>=14'}
     peerDependencies:
-      release-it: ^15.0.0-esm.4
+      release-it: ^15.3.0
     dependencies:
       concat-stream: 2.0.0
       conventional-changelog: 3.1.25
       conventional-recommended-bump: 6.1.0
       release-it: 15.3.0
+      semver: 7.3.7
     dev: true
 
   /@sideway/address/4.1.4:
