@@ -8,7 +8,7 @@
  * @see https://github.com/tc39/proposal-error-cause
  */
 export interface ErrorLike extends Error {
-  cause?: Error | undefined;
+  cause?: Error;
 }
 
 export type EErrorOptions<
