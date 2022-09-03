@@ -1,5 +1,29 @@
 
 
+## [0.3.1](https://github.com/benyap/exceptional-errors/compare/0.3.0...0.3.1) (2022-09-03)
+
+
+### Bug Fixes
+
+* make `ErrorLike` compatible with `Error` when exactOptionalPropertyTypes is true ([5a2ac48](https://github.com/benyap/exceptional-errors/commit/5a2ac48a80565fe2d7157769eaad158cd3dee27a))
+
+
+### Internal
+
+* **deps:** update commitlint monorepo ([#19](https://github.com/benyap/exceptional-errors/issues/19)) ([146fc47](https://github.com/benyap/exceptional-errors/commit/146fc47c2a738fba8f62cf7fe12b2be62a13dbc1))
+* **deps:** update dependency @release-it/conventional-changelog to v5.1.0 ([#16](https://github.com/benyap/exceptional-errors/issues/16)) ([072058f](https://github.com/benyap/exceptional-errors/commit/072058f0ccc496f0e9157cdd987908efb1df2547))
+* **deps:** update dependency @types/chai to v4.3.2 ([#13](https://github.com/benyap/exceptional-errors/issues/13)) ([0fb6c3a](https://github.com/benyap/exceptional-errors/commit/0fb6c3a0ae77f9eaa5e7e2674b023c7389b5538e))
+* **deps:** update dependency @types/chai to v4.3.3 ([#14](https://github.com/benyap/exceptional-errors/issues/14)) ([6279cad](https://github.com/benyap/exceptional-errors/commit/6279cadfa2b2bff5413bdaa42c06b44ca01dae13))
+* **deps:** update dependency concurrently to v7.3.0 ([#11](https://github.com/benyap/exceptional-errors/issues/11)) ([7b2b4ba](https://github.com/benyap/exceptional-errors/commit/7b2b4bac16de3afa550cb737bdd910e7c6ae5d3f))
+* **deps:** update dependency release-it to v15.1.2 ([#10](https://github.com/benyap/exceptional-errors/issues/10)) ([51d241f](https://github.com/benyap/exceptional-errors/commit/51d241f1415a77b3eae40019ee76ab4956362d88))
+* **deps:** update dependency release-it to v15.2.0 ([#12](https://github.com/benyap/exceptional-errors/issues/12)) ([b38c141](https://github.com/benyap/exceptional-errors/commit/b38c1411588e85a9c3bbd4a1436f3d586c3a3d6d))
+* **deps:** update dependency release-it to v15.3.0 ([#15](https://github.com/benyap/exceptional-errors/issues/15)) ([f460ebd](https://github.com/benyap/exceptional-errors/commit/f460ebdfebb30d64d685cfd757d613e5d74bc7ee))
+* **deps:** update dependency release-it to v15.4.1 ([#17](https://github.com/benyap/exceptional-errors/issues/17)) ([bce9288](https://github.com/benyap/exceptional-errors/commit/bce92881f2a281923855df7758fb1d8331b5ba56))
+* **deps:** update dependency serve to v14 ([#8](https://github.com/benyap/exceptional-errors/issues/8)) ([0d186d2](https://github.com/benyap/exceptional-errors/commit/0d186d2eca1a20bc303fd67e6a3bd933a0d59f3c))
+* **deps:** update dependency serve to v14.0.1 ([#9](https://github.com/benyap/exceptional-errors/issues/9)) ([33764d7](https://github.com/benyap/exceptional-errors/commit/33764d7a033aca0ff370c2d3924ee7b4c44c5fac))
+* fix typo ([a6cbe51](https://github.com/benyap/exceptional-errors/commit/a6cbe513dcb8e18fcd03c2eacb879928f802f393))
+* update release name ([813d7a8](https://github.com/benyap/exceptional-errors/commit/813d7a89fce614cd3bc2daffdaf71a14aeaaf111))
+
 ## [0.3.0](https://github.com/benyap/exceptional-errors/compare/0.2.1...0.3.0) (2022-07-09)
 
 
