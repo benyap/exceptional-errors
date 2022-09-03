@@ -1,5 +1,12 @@
 
 
+## [0.3.2](https://github.com/benyap/exceptional-errors/compare/0.3.1...0.3.2) (2022-09-03)
+
+
+### Reverts
+
+* "fix: make `ErrorLike` compatible with `Error` when exactOptionalPropertyTypes is true" ([8f61e03](https://github.com/benyap/exceptional-errors/commit/8f61e03098fc0ffa13dff6ba54eb3f62f51bf844))
+
 ## [0.3.1](https://github.com/benyap/exceptional-errors/compare/0.3.0...0.3.1) (2022-09-03)
 
 
