@@ -1,5 +1,18 @@
 
 
+## [0.3.3](https://github.com/benyap/exceptional-errors/compare/0.3.2...0.3.3) (2022-09-10)
+
+
+### Bug Fixes
+
+* make compatible with built-in `Error`, deprecate `ErrorLike` ([61139a3](https://github.com/benyap/exceptional-errors/commit/61139a3e811107211ae6b8513981dd4b09b517a6))
+
+
+### Internal
+
+* **deps:** update dependency concurrently to v7.4.0 ([#20](https://github.com/benyap/exceptional-errors/issues/20)) ([add39c2](https://github.com/benyap/exceptional-errors/commit/add39c2036836795d1081c088831f2bb9103a1b7))
+* **deps:** update dependency typescript to v4.8.3 ([#18](https://github.com/benyap/exceptional-errors/issues/18)) ([f598794](https://github.com/benyap/exceptional-errors/commit/f598794497d960ca878d695ed28a5797ceff686a))
+
 ## [0.3.2](https://github.com/benyap/exceptional-errors/compare/0.3.1...0.3.2) (2022-09-03)
 
 
