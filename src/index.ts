@@ -1,19 +1,13 @@
 /**
- * An {@link Error} object that has an optional `cause` field.
- *
- * This interface is provided to provide compatibiliy with older
- * versions of ECMAScript (ES2021 and below), as the `cause` field
- * was only implemented in ES2022.
- *
- * @see https://github.com/tc39/proposal-error-cause
+ * Type for a class constructor that extends {@link Error}.
  */
-export interface ErrorLike extends Error {
-  cause?: Error;
-}
+export type AnyErrorConstructor<T extends Error = Error> = {
+  new (...args: any[]): T;
+};
 
 export type EErrorOptions<
   T extends { [key: string]: any },
-  Cause extends ErrorLike
+  Cause extends Error
 > = {
   /**
    * A property indicating the specific cause of the error.
@@ -26,13 +20,6 @@ export type EErrorOptions<
    * Additional data to store in the error.
    */
   info?: T;
-};
-
-/**
- * Type for a class definition that creates an {@link ErrorLike} instance.
- */
-export type ErrorLikeConstructor<T extends ErrorLike> = {
-  new (...args: any[]): T;
 };
 
 /**
@@ -54,33 +41,29 @@ const EMPTY_STACK_TRACE = "<stack trace empty>";
  * existing error as the cause and add structured data to help with debugging.
  *
  * @template T The shape of any structured data to pass to the error. Defaults to the arbitrary type `{ [key: string]: any }`.
- * @template Cause The error type that this error may wrap as a cause. Must extend the {@link ErrorLike} type.
+ * @template Cause The error type that this error may wrap as a cause. Must extend the {@link Error} type.
  */
 export class EError<
   T extends { [key: string]: any } = { [key: string]: any },
-  Cause extends ErrorLike = ErrorLike
+  Cause extends Error = Error
 > extends Error {
-  /**
-   * The original message passed to the error constructor.
-   */
-  readonly originalMessage: string;
-
   /**
    * A property indicating the specific cause of the error.
    *
    * @override
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
    */
-  readonly cause?: Cause;
+  override readonly cause?: Cause;
+
+  /**
+   * The original message passed to the error constructor.
+   */
+  readonly originalMessage: string;
 
   readonly info?: T;
 
   /**
    * Create an {@link EError} instance with an empty message.
-   *
-   * This is not recommended, but is provided as an option for when
-   * you extend the class and you don't need to specify a message
-   * if the class name itself gives enough context.
    */
   constructor();
 
@@ -183,14 +166,14 @@ export class EError<
    * @param filter A function to filter the causes to return. Return `true` if an error in the chain should be included in the result.
    */
   static getCauses(
-    error: ErrorLike | undefined,
-    filter?: (error: ErrorLike) => boolean
-  ): ErrorLike[] {
-    const causes: ErrorLike[] = [];
-    let currentError: ErrorLike | undefined = error;
-    while (currentError) {
-      if (!filter || filter(currentError)) causes.push(currentError);
-      currentError = currentError.cause;
+    error: Error | undefined,
+    filter?: (error: Error) => boolean
+  ): Error[] {
+    const causes: Error[] = [];
+    let cause: Error | null | undefined = error;
+    while (cause) {
+      if (!filter || filter(cause)) causes.push(cause);
+      cause = cause.cause instanceof Error ? cause.cause : null;
     }
     return causes;
   }
@@ -200,7 +183,7 @@ export class EError<
    *
    * @param filter A function to filter the causes to return. Return `true` if an error in the chain should be included in the result.
    */
-  getCauses(filter?: (error: ErrorLike) => boolean): ErrorLike[] {
+  getCauses(filter?: (error: Error) => boolean): Error[] {
     return EError.getCauses(this, filter);
   }
 
@@ -212,14 +195,13 @@ export class EError<
    * @param type The error type. Must be a class definition, such as {@link Error}.
    */
   static findCause<T extends Error>(
-    error: ErrorLike | undefined,
-    type: ErrorLikeConstructor<T>
+    error: Error | undefined,
+    type: AnyErrorConstructor<T>
   ): T | null {
-    let errorCause: ErrorLike | undefined = error;
-    while (errorCause) {
-      if (errorCause instanceof type && errorCause.name === type.name)
-        return errorCause;
-      errorCause = (errorCause as ErrorLike).cause;
+    let cause: Error | null | undefined = error;
+    while (cause) {
+      if (cause instanceof type && cause.name === type.name) return cause as T;
+      cause = cause.cause instanceof Error ? cause.cause : null;
     }
     return null;
   }
@@ -230,7 +212,7 @@ export class EError<
    *
    * @param type The error type. Must be a class definition, such as {@link Error}.
    */
-  findCause<T extends Error>(type: ErrorLikeConstructor<T>): T | null {
+  findCause<T extends Error>(type: AnyErrorConstructor<T>): T | null {
     return EError.findCause(this, type);
   }
 
@@ -242,8 +224,8 @@ export class EError<
    * @param type The error type. Must be a class definition, such as {@link Error}.
    */
   static findCauses<T extends Error>(
-    error: ErrorLike,
-    type: ErrorLikeConstructor<T>
+    error: Error,
+    type: AnyErrorConstructor<T>
   ): T[] {
     return EError.getCauses(
       error,
@@ -257,7 +239,7 @@ export class EError<
    *
    * @param type The error type. Must be a class definition, such as {@link Error}.
    */
-  findCauses<T extends Error>(type: ErrorLikeConstructor<T>): T[] {
+  findCauses<T extends Error>(type: ErrorConstructor): T[] {
     return EError.getCauses(
       this,
       (e) => e instanceof type && e.name === type.name
@@ -272,12 +254,11 @@ export class EError<
    * @param error The error to get the cause chain from.
    * @param name The name of the error to find.
    */
-  static findCauseByName(error: ErrorLike, name: string): ErrorLike | null {
-    let errorCause: ErrorLike | undefined = error;
-    while (errorCause) {
-      if (errorCause instanceof Error && errorCause.name === name)
-        return errorCause;
-      errorCause = errorCause.cause;
+  static findCauseByName(error: Error, name: string): Error | null {
+    let cause: Error | null = error;
+    while (cause) {
+      if (cause instanceof Error && cause.name === name) return cause;
+      cause = cause.cause instanceof Error ? cause.cause : null;
     }
     return null;
   }
@@ -289,7 +270,7 @@ export class EError<
    *
    * @param name The name of the error to find.
    */
-  findCauseByName(name: string): ErrorLike | null {
+  findCauseByName(name: string): Error | null {
     return EError.findCauseByName(this, name);
   }
 
@@ -301,7 +282,7 @@ export class EError<
    * @param error The error to get the cause chain from.
    * @param name The name of the error to find.
    */
-  static findCausesByName(error: ErrorLike, name: string): ErrorLike[] {
+  static findCausesByName(error: Error, name: string): Error[] {
     return EError.getCauses(error, (e) => e.name === name);
   }
 
@@ -312,7 +293,7 @@ export class EError<
    *
    * @param name The name of the error to find.
    */
-  findCausesByName(name: string): ErrorLike[] {
+  findCausesByName(name: string): Error[] {
     return EError.findCausesByName(this, name);
   }
 
@@ -322,9 +303,9 @@ export class EError<
    *
    * @param error The error to get the full stack trace for.
    */
-  static fullStack(error: ErrorLike): string {
+  static fullStack(error: Error): string {
     let stack = error.stack ?? EMPTY_STACK_TRACE;
-    if (error.cause)
+    if (error.cause instanceof Error)
       stack += "\n\n" + `caused by: ${EError.fullStack(error.cause)}`;
     return stack;
   }
@@ -344,7 +325,7 @@ export class EError<
    * @param options Output options.
    */
   static toJSON(
-    error: ErrorLike,
+    error: Error,
     options: {
       /** If `true`, includes the stack trace in the output. */
       stack?: boolean;
@@ -363,7 +344,7 @@ export class EError<
       json.originalMessage = error.originalMessage;
     }
 
-    if (!shallow && error.cause) {
+    if (!shallow && error.cause instanceof Error) {
       json.cause = EError.toJSON(error.cause, options);
     }
 
@@ -395,3 +376,29 @@ export class EError<
     return EError.toJSON(this, options);
   }
 }
+
+// --- DEPRECATED ---
+
+/**
+ * An {@link Error} object that has an optional `cause` field.
+ *
+ * This interface is provided to provide compatibiliy with older
+ * versions of ECMAScript (ES2021 and below), as the `cause` field
+ * was only implemented in ES2022.
+ *
+ * @see https://github.com/tc39/proposal-error-cause
+ *
+ * @deprecated Use the built-in {@link Error} interface.
+ */
+export interface ErrorLike extends Error {
+  cause?: Error;
+}
+
+/**
+ * Type for a class definition that creates an {@link ErrorLike} instance.
+ *
+ * @deprecated Use the built-in {@link ErrorConstructor} interface.
+ */
+export type ErrorLikeConstructor<T extends ErrorLike> = {
+  new (...args: any[]): T;
+};

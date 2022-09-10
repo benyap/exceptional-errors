@@ -214,25 +214,21 @@ Alternatively, if you are extending the `EError` class, you may want to pass on
 the generics for improved type support, or define them to restrict them.
 
 ```ts
-export interface ErrorLike extends Error {
-  cause?: Error;
-}
-
 class EError<
   T extends { [key: string]: any } = { [key: string]: any },
-  Cause extends ErrorLike = ErrorLike
+  Cause extends Error = Error
 > {
   // ...
 }
 ```
 
 ```ts
-import { EError, ErrorLike } from "exceptional-errors";
+import { EError } from "exceptional-errors";
 
 // Pass on the generics
 class MyCustomError<
   T extends { [key: string]: any },
-  Cause extends ErrorLike
+  Cause extends Error
 > extends EError<T, Cause> {
   // ...
 }
@@ -248,10 +244,6 @@ class MyCustomError extends EError<{ code: number }> {
 ```ts
 /**
  * Create an EError instance with an empty message.
- *
- * This is not recommended, but is provided as an option for when
- * you extend the class and you don't need to specify a message
- * if the class name itself gives enough context.
  */
 new EError()
 
@@ -306,7 +298,7 @@ The following methods are available on any `EError` instance.
 ```ts
 class EError {
   // ...
-  getCauses(filter?: (error: ErrorLike) => boolean): ErrorLike[];
+  getCauses(filter?: (error: Error) => boolean): Error[];
 }
 ```
 
@@ -318,8 +310,8 @@ filter function to filter the returned results.
 ```ts
 class EError {
   // ...
-  findCause<T extends Error>(type: ErrorLikeConstructor<T>): T | null;
-  findCauses<T extends Error>(type: ErrorLikeConstructor<T>): T[];
+  findCause<T extends Error>(type: AnyErrorConstructor<T>): T | null;
+  findCauses<T extends Error>(type: AnyErrorConstructor<T>): T[];
 }
 ```
 
@@ -333,8 +325,8 @@ built-in `Error` class, `EError`, or a custom error class.
 ```ts
 class EError {
   // ...
-  findCauseByName(name: string): ErrorLike | null;
-  findCausesByName(name: string): ErrorLike[];
+  findCauseByName(name: string): Error | null;
+  findCausesByName(name: string): Error[];
 }
 ```
 
@@ -411,7 +403,7 @@ This package has been tested to be compatible with ES6 and CommonJS. To run the
 tests in this module, you'll need to clone this repository and install the
 development dependencies.
 
-To run tests for CommonJS, run the following command:
+To run tests for CommonJS and Typescript run the following command:
 
 ```
 pnpm test
