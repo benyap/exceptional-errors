@@ -7,7 +7,7 @@ specifiers:
   '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
-  concurrently: 7.3.0
+  concurrently: 7.4.0
   husky: 8.0.1
   mocha: 10.0.0
   prettier: 2.7.1
@@ -24,7 +24,7 @@ devDependencies:
   '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
-  concurrently: 7.3.0
+  concurrently: 7.4.0
   husky: 8.0.1
   mocha: 10.0.0
   prettier: 2.7.1
@@ -1053,13 +1053,13 @@ packages:
       typedarray: 0.0.6
     dev: true
 
-  /concurrently/7.3.0:
-    resolution: {integrity: sha512-IiDwm+8DOcFEInca494A8V402tNTQlJaYq78RF2rijOrKEk/AOHTxhN4U1cp7GYKYX5Q6Ymh1dLTBlzIMN0ikA==}
+  /concurrently/7.4.0:
+    resolution: {integrity: sha512-M6AfrueDt/GEna/Vg9BqQ+93yuvzkSKmoTixnwEJkH0LlcGrRC2eCmjeG1tLLHIYfpYJABokqSGyMcXjm96AFA==}
     engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
     hasBin: true
     dependencies:
       chalk: 4.1.2
-      date-fns: 2.28.0
+      date-fns: 2.29.2
       lodash: 4.17.21
       rxjs: 7.5.6
       shell-quote: 1.7.3
@@ -1327,8 +1327,8 @@ packages:
     engines: {node: '>= 12'}
     dev: true
 
-  /date-fns/2.28.0:
-    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
+  /date-fns/2.29.2:
+    resolution: {integrity: sha512-0VNbwmWJDS/G3ySwFSJA3ayhbURMTJLtwM2DTxf9CWondCnh6DTNlO9JgRSq6ibf4eD0lfMJNBxUdEAHHix+bA==}
     engines: {node: '>=0.11'}
     dev: true
 
