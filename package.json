@@ -52,7 +52,7 @@
     "@types/mocha": "9.1.1",
     "chai": "4.3.6",
     "concurrently": "7.6.0",
-    "husky": "8.0.1",
+    "husky": "8.0.2",
     "mocha": "10.0.0",
     "prettier": "2.7.1",
     "release-it": "15.4.2",
