@@ -4,9 +4,9 @@ specifiers:
   '@commitlint/cli': 17.1.2
   '@commitlint/config-conventional': 17.1.0
   '@release-it/conventional-changelog': 5.1.1
-  '@types/chai': 4.3.3
+  '@types/chai': 4.3.4
   '@types/mocha': 9.1.1
-  chai: 4.3.6
+  chai: 4.3.7
   concurrently: 7.6.0
   husky: 8.0.2
   mocha: 10.0.0
@@ -21,9 +21,9 @@ devDependencies:
   '@commitlint/cli': 17.1.2
   '@commitlint/config-conventional': 17.1.0
   '@release-it/conventional-changelog': 5.1.1_release-it@15.4.2
-  '@types/chai': 4.3.3
+  '@types/chai': 4.3.4
   '@types/mocha': 9.1.1
-  chai: 4.3.6
+  chai: 4.3.7
   concurrently: 7.6.0
   husky: 8.0.2
   mocha: 10.0.0
@@ -492,8 +492,8 @@ packages:
       '@types/responselike': 1.0.0
     dev: true
 
-  /@types/chai/4.3.3:
-    resolution: {integrity: sha512-hC7OMnszpxhZPduX+m+nrx+uFoLkWOMiR4oa/AZF3MuSETYTZmFfJAHqZEM8MVlvfG7BEUcgvtwoCTxBp6hm3g==}
+  /@types/chai/4.3.4:
+    resolution: {integrity: sha512-KnRanxnpfpjUTqTCXslZSEdLfXExwgNxYPdiO2WGUj8+HDjFi8R3k5RVKPeSCzLjCcshCAtVO2QBbVuAV4kTnw==}
     dev: true
 
   /@types/http-cache-semantics/4.0.1:
@@ -855,13 +855,13 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /chai/4.3.6:
-    resolution: {integrity: sha512-bbcp3YfHCUzMOvKqsztczerVgBKSsEijCySNlHHbX3VG1nskvqjz5Rfso1gGwD6w6oOV3eI60pKuMOV5MV7p3Q==}
+  /chai/4.3.7:
+    resolution: {integrity: sha512-HLnAzZ2iupm25PlN0xFreAlBA5zaBSv3og0DdeGA4Ar6h6rJ3A0rolRUKJhSF2V10GZKDgWF/VmAEsNWjCRB+A==}
     engines: {node: '>=4'}
     dependencies:
       assertion-error: 1.1.0
       check-error: 1.0.2
-      deep-eql: 3.0.1
+      deep-eql: 4.1.2
       get-func-name: 2.0.0
       loupe: 2.3.4
       pathval: 1.1.1
@@ -1397,9 +1397,9 @@ packages:
       mimic-response: 3.1.0
     dev: true
 
-  /deep-eql/3.0.1:
-    resolution: {integrity: sha512-+QeIQyN5ZuO+3Uk5DYh6/1eKO0m0YmJFGNmFHGACpf1ClL1nmlV/p4gNgbl2pJGxgXb4faqo6UE+M5ACEMyVcw==}
-    engines: {node: '>=0.12'}
+  /deep-eql/4.1.2:
+    resolution: {integrity: sha512-gT18+YW4CcW/DBNTwAmqTtkJh7f9qqScu2qFVlx7kCoeY9tlBu9cUcr7+I+Z/noG8INehS3xQgLpTtd/QUTn4w==}
+    engines: {node: '>=6'}
     dependencies:
       type-detect: 4.0.8
     dev: true
