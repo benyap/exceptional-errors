@@ -78,5 +78,12 @@ import { EError } from "../src/index";
 
 // Other Typescript scenarios that should compile
 {
-  new EError("error", { cause: new Error() });
+  // Test constructors
+  new EError();
+  new EError("message");
+  new EError("message", {});
+  new EError("message", new Error());
+  new EError("message", { cause: new Error(), info: [] });
+  new EError(new Error());
+  new EError({ cause: new Error(), info: 10 });
 }

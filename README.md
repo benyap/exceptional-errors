@@ -247,11 +247,6 @@ new EError()
 new EError(message: string)
 
 /**
- * Create an EError instance with the given cause and an empty message.
- */
-new EError(error: Cause)
-
-/**
  * Create an EError instance with the given message and cause.
  * The message of the causing error will be appended to this
  * error's message.
@@ -261,15 +256,25 @@ new EError(error: Cause)
  */
 new EError(message: string, error: Cause)
 
-
 /**
- * Create an EError instance with the given message and cause.
- * The message of the causing error will be appended to this error's message.
+ * Create an EError instance with the given message and options.
+ * The message of the causing error, if provided, will be appended
+ * to this error's message.
  *
  * @param message The error message.
  * @param options Data to pass to the error, such as `cause` and `info`.
  */
 new EError(message: string, options: { cause?: Cause, info?: T })
+
+/**
+ * Create an EError instance with the given options and an empty message.
+ */
+new EError(options: { cause?: Cause, info?: T })
+
+/**
+ * Create an EError instance with the given cause and an empty message.
+ */
+new EError(error: Cause)
 ```
 
 ### Properties on an `EError` instance

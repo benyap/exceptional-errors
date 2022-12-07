@@ -67,12 +67,6 @@ export class EError<T = unknown, Cause extends Error = Error> extends Error {
   constructor(message: string);
 
   /**
-   * Create an {@link EError} instance with the given cause and
-   * an empty message.
-   */
-  constructor(cause: Cause);
-
-  /**
    * Create an {@link EError} instance with the given message and cause.
    * The message of the causing error will be appended to this error's message.
    *
@@ -82,50 +76,66 @@ export class EError<T = unknown, Cause extends Error = Error> extends Error {
   constructor(message: string, cause: Cause);
 
   /**
-   * Create an {@link EError} instance with the given message and cause.
-   * The message of the causing error will be appended to this error's message.
+   * Create an {@link EError} instance with the given message and options.
+   * The message of the causing error, if provided, will be appended
+   * to this error's message.
    *
    * @param message The error message.
    * @param options Data to pass to the error, such as `cause` and `info`.
    */
   constructor(message: string, options: EErrorOptions<T, Cause>);
 
+  /**
+   * Create an {@link EError} instance with the given options
+   * and an empty message.
+   */
+  constructor(options: EErrorOptions<T, Cause>);
+
+  /**
+   * Create an {@link EError} instance with the given cause and
+   * an empty message.
+   */
+  constructor(cause: Cause);
+
   // Implementation
   constructor(
-    messageOrCause: string | Cause = "",
+    messageOrOptionsOrCause?: string | EErrorOptions<T, Cause> | Cause,
     optionsOrCause?: EErrorOptions<T, Cause> | Cause
   ) {
-    let _message = "";
-    let _cause: Cause | undefined = undefined;
-    let _info: T | undefined = undefined;
+    let message = "";
+    let cause: Cause | undefined = undefined;
+    let info: T | undefined = undefined;
 
     // Normalise constructor arguments
-    if (messageOrCause instanceof Error) {
+    if (messageOrOptionsOrCause instanceof Error) {
       // EError(error)
-      _message = "";
-      _cause = messageOrCause;
-    } else if (optionsOrCause instanceof Error) {
-      // EError(message, error)
-      _message = messageOrCause;
-      _cause = optionsOrCause;
-    } else if (optionsOrCause) {
-      // EError(message, options)
-      _message = messageOrCause;
-      const { cause, info } = optionsOrCause;
-      _cause = cause;
-      _info = info;
-    } else {
-      // EError() or EError(message)
-      _message = messageOrCause;
+      message = "";
+      cause = messageOrOptionsOrCause;
+    } else if (typeof messageOrOptionsOrCause === "string") {
+      message = messageOrOptionsOrCause;
+      if (optionsOrCause instanceof Error) {
+        // EError(message, cause)
+        cause = optionsOrCause;
+      } else if (typeof optionsOrCause === "object") {
+        // EError(message, options)
+        cause = optionsOrCause.cause;
+        info = optionsOrCause.info;
+      }
+      // else EError(message)
+    } else if (typeof messageOrOptionsOrCause === "object") {
+      // EError(options)
+      cause = messageOrOptionsOrCause.cause;
+      info = messageOrOptionsOrCause.info;
     }
+    // else EError()
 
     // Construct message
-    if (!_cause) {
-      super(_message);
+    if (!cause) {
+      super(message);
     } else {
-      const causes = EError.getCauses(_cause);
+      const causes = EError.getCauses(cause);
       const messages: string[] = [];
-      if (_message) messages.push(_message);
+      if (message) messages.push(message);
       causes.forEach((cause) => {
         const messageString = [cause.name];
         if (cause instanceof EError) {
@@ -139,9 +149,9 @@ export class EError<T = unknown, Cause extends Error = Error> extends Error {
     }
 
     // Set properties
-    this.originalMessage = _message;
-    if (_cause) this.cause = _cause;
-    if (_info) this.info = _info;
+    this.originalMessage = message;
+    if (cause) this.cause = cause;
+    if (info) this.info = info;
 
     // Provides compatibility with instanceof
     Object.setPrototypeOf(this, new.target.prototype);
