@@ -1,5 +1,29 @@
 
 
+## [0.4.0](https://github.com/benyap/exceptional-errors/compare/0.3.3...0.4.0) (2022-12-07)
+
+
+### Features
+
+* add `EError(options)` constructor ([6f36e53](https://github.com/benyap/exceptional-errors/commit/6f36e53c7fb3e7f3591d5206c70ccb046977eef5))
+* remove info type record restriction and default to `unknown` ([05d3528](https://github.com/benyap/exceptional-errors/commit/05d35283e71d81a0d9af056fd43e1d86bc67053b))
+
+
+### Internal
+
+* **deps:** update commitlint monorepo to v17.3.0 ([#28](https://github.com/benyap/exceptional-errors/issues/28)) ([c7b61ef](https://github.com/benyap/exceptional-errors/commit/c7b61ef905cedb873272bda45935e2db5027a242))
+* **deps:** update dependency @release-it/conventional-changelog to v5.1.1 ([#25](https://github.com/benyap/exceptional-errors/issues/25)) ([bc6c075](https://github.com/benyap/exceptional-errors/commit/bc6c0756d49b4d63b22ee33da0748302b81cf266))
+* **deps:** update dependency chai to v4.3.7 ([#29](https://github.com/benyap/exceptional-errors/issues/29)) ([0b063a7](https://github.com/benyap/exceptional-errors/commit/0b063a7e37dccea121de751b075d3ee192c0f9d4))
+* **deps:** update dependency concurrently to v7.6.0 ([#27](https://github.com/benyap/exceptional-errors/issues/27)) ([f02a25b](https://github.com/benyap/exceptional-errors/commit/f02a25b603c41ad778bc192faab0fdfcd50aa10a))
+* **deps:** update dependency husky to v8.0.2 ([#30](https://github.com/benyap/exceptional-errors/issues/30)) ([9fb519b](https://github.com/benyap/exceptional-errors/commit/9fb519b9aa963e77c442998720fb5d3e665ea758))
+* **deps:** update dependency mocha to v10.1.0 ([#23](https://github.com/benyap/exceptional-errors/issues/23)) ([e63f5d7](https://github.com/benyap/exceptional-errors/commit/e63f5d77fe92e88c20b9903d39518b7c292bc792))
+* **deps:** update dependency prettier to v2.8.0 ([#32](https://github.com/benyap/exceptional-errors/issues/32)) ([7fb78f8](https://github.com/benyap/exceptional-errors/commit/7fb78f8d2a0e5314e629c81cdfa623cb7a846a90))
+* **deps:** update dependency release-it to v15.4.2 ([#21](https://github.com/benyap/exceptional-errors/issues/21)) ([5cad367](https://github.com/benyap/exceptional-errors/commit/5cad367da0898511690d54adff7b75c278cfd777))
+* **deps:** update dependency release-it to v15.5.1 ([#24](https://github.com/benyap/exceptional-errors/issues/24)) ([13a0b2e](https://github.com/benyap/exceptional-errors/commit/13a0b2e4865764e6b564af89df97d0fb66d9dade))
+* **deps:** update dependency serve to v14.1.2 ([#31](https://github.com/benyap/exceptional-errors/issues/31)) ([3a56b1f](https://github.com/benyap/exceptional-errors/commit/3a56b1f19b94b16b6505cb0301df13a5482b6819))
+* **deps:** update dependency typescript to v4.9.3 ([#22](https://github.com/benyap/exceptional-errors/issues/22)) ([151cf56](https://github.com/benyap/exceptional-errors/commit/151cf569f532b3f7fa695a6713c70d4de3908dd9))
+* **deps:** update pnpm/action-setup action to v2.2.4 ([#26](https://github.com/benyap/exceptional-errors/issues/26)) ([9a9c2b7](https://github.com/benyap/exceptional-errors/commit/9a9c2b76faade4ff21cc5164c588e61b258743ee))
+
 ## [0.3.3](https://github.com/benyap/exceptional-errors/compare/0.3.2...0.3.3) (2022-09-10)
 
 
