@@ -76,7 +76,7 @@ EError: something went wrong > Error: it was my fault
 
 #### Example 3
 
-Pass a cause as well as structured data to **EError** to make it easier to
+Pass a cause and structured data to **EError** to make it easier to
 programatically handle and process errors. You can easily access the `cause` and
 `info` for debugging.
 
@@ -214,10 +214,7 @@ Alternatively, if you are extending the `EError` class, you may want to pass on
 the generics for improved type support, or define them to restrict them.
 
 ```ts
-class EError<
-  T extends { [key: string]: any } = { [key: string]: any },
-  Cause extends Error = Error
-> {
+class EError<T = unknown, Cause extends Error = Error> {
   // ...
 }
 ```
@@ -226,10 +223,7 @@ class EError<
 import { EError } from "exceptional-errors";
 
 // Pass on the generics
-class MyCustomError<
-  T extends { [key: string]: any },
-  Cause extends Error
-> extends EError<T, Cause> {
+class MyCustomError<T, Cause extends Error> extends EError<T, Cause> {
   // ...
 }
 

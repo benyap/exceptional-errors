@@ -5,10 +5,7 @@ export type AnyErrorConstructor<T extends Error = Error> = {
   new (...args: any[]): T;
 };
 
-export type EErrorOptions<
-  T extends { [key: string]: any },
-  Cause extends Error
-> = {
+export type EErrorOptions<T, Cause extends Error> = {
   /**
    * A property indicating the specific cause of the error.
    *
@@ -40,13 +37,10 @@ const EMPTY_STACK_TRACE = "<stack trace empty>";
  * An extension of the built-in {@link Error} class that allows you to wrap an
  * existing error as the cause and add structured data to help with debugging.
  *
- * @template T The shape of any structured data to pass to the error. Defaults to the arbitrary type `{ [key: string]: any }`.
+ * @template T The shape of any structured data to pass to the error.
  * @template Cause The error type that this error may wrap as a cause. Must extend the {@link Error} type.
  */
-export class EError<
-  T extends { [key: string]: any } = { [key: string]: any },
-  Cause extends Error = Error
-> extends Error {
+export class EError<T = unknown, Cause extends Error = Error> extends Error {
   /**
    * A property indicating the specific cause of the error.
    *
