@@ -10,7 +10,7 @@ specifiers:
   concurrently: 7.6.0
   husky: 8.0.2
   mocha: 10.1.0
-  prettier: 2.8.1
+  prettier: 2.8.4
   release-it: 15.5.1
   rimraf: 3.0.2
   serve: 14.1.2
@@ -27,7 +27,7 @@ devDependencies:
   concurrently: 7.6.0
   husky: 8.0.2
   mocha: 10.1.0
-  prettier: 2.8.1
+  prettier: 2.8.4
   release-it: 15.5.1
   rimraf: 3.0.2
   serve: 14.1.2
@@ -3264,8 +3264,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier/2.8.1:
-    resolution: {integrity: sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==}
+  /prettier/2.8.4:
+    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
