@@ -8,10 +8,8 @@
   "bugs": {
     "url": "https://github.com/benyap/exceptional-errors/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/benyap/exceptional-errors.git"
-  },
+  "repository": "https://github.com/benyap/exceptional-errors.git",
+  "packageManager": "pnpm@7.27.0",
   "keywords": [
     "error",
     "exception",
