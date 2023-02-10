@@ -9,7 +9,7 @@ specifiers:
   chai: 4.3.7
   concurrently: 7.6.0
   husky: 8.0.3
-  mocha: 10.1.0
+  mocha: 10.2.0
   prettier: 2.8.4
   release-it: 15.5.1
   rimraf: 4.1.2
@@ -26,7 +26,7 @@ devDependencies:
   chai: 4.3.7
   concurrently: 7.6.0
   husky: 8.0.3
-  mocha: 10.1.0
+  mocha: 10.2.0
   prettier: 2.8.4
   release-it: 15.5.1
   rimraf: 4.1.2
@@ -2809,8 +2809,8 @@ packages:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
 
-  /mocha/10.1.0:
-    resolution: {integrity: sha512-vUF7IYxEoN7XhQpFLxQAEMtE4W91acW4B6En9l97MwE9stL1A9gusXfoHZCLVHDUJ/7V5+lbCM6yMqzo5vNymg==}
+  /mocha/10.2.0:
+    resolution: {integrity: sha512-IDY7fl/BecMwFHzoqF2sg/SHHANeBoMMXFlS9r0OXKDssYE1M5O43wUY/9BVPeIvfH2zmEbBfseqN9gBQZzXkg==}
     engines: {node: '>= 14.0.0'}
     hasBin: true
     dependencies:
