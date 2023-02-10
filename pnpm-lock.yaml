@@ -11,7 +11,7 @@ specifiers:
   husky: 8.0.3
   mocha: 10.2.0
   prettier: 2.8.4
-  release-it: 15.5.1
+  release-it: 15.6.0
   rimraf: 4.1.2
   serve: 14.2.0
   typescript: 4.9.5
@@ -20,7 +20,7 @@ specifiers:
 devDependencies:
   '@commitlint/cli': 17.4.2
   '@commitlint/config-conventional': 17.4.2
-  '@release-it/conventional-changelog': 5.1.1_release-it@15.5.1
+  '@release-it/conventional-changelog': 5.1.1_release-it@15.6.0
   '@types/chai': 4.3.4
   '@types/mocha': 10.0.1
   chai: 4.3.7
@@ -28,7 +28,7 @@ devDependencies:
   husky: 8.0.3
   mocha: 10.2.0
   prettier: 2.8.4
-  release-it: 15.5.1
+  release-it: 15.6.0
   rimraf: 4.1.2
   serve: 14.2.0
   typescript: 4.9.5
@@ -429,7 +429,7 @@ packages:
       config-chain: 1.1.13
     dev: true
 
-  /@release-it/conventional-changelog/5.1.1_release-it@15.5.1:
+  /@release-it/conventional-changelog/5.1.1_release-it@15.6.0:
     resolution: {integrity: sha512-QtbDBe36dQfzexAfDYrbLPvd5Cb5bMWmLcjcGhCOWBss7fe1/gCjoxDULVz+7N7G5Nu2UMeBwHcUp/w8RDh5VQ==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -438,7 +438,7 @@ packages:
       concat-stream: 2.0.0
       conventional-changelog: 3.1.25
       conventional-recommended-bump: 6.1.0
-      release-it: 15.5.1
+      release-it: 15.6.0
       semver: 7.3.8
     dev: true
 
@@ -3491,8 +3491,8 @@ packages:
       rc: 1.2.8
     dev: true
 
-  /release-it/15.5.1:
-    resolution: {integrity: sha512-1X1oyqay/amJh/V+xkSU9zN6LqGmLQJ0Q40+FaHE6+Pu6QCmgX9HbrpHxvF0HZeXkB5cdhHjmYsPbHnUQLRnYg==}
+  /release-it/15.6.0:
+    resolution: {integrity: sha512-NXewgzO8QV1LOFjn2K7/dgE1Y1cG+2JiLOU/x9X/Lq9UdFn2hTH1r9SSrufCxG+y/Rp+oN8liYTsNptKrj92kg==}
     engines: {node: '>=14.9'}
     hasBin: true
     dependencies:
@@ -3502,7 +3502,6 @@ packages:
       chalk: 5.1.2
       cosmiconfig: 8.0.0
       execa: 6.1.0
-      form-data: 4.0.0
       git-url-parse: 13.1.0
       globby: 13.1.2
       got: 12.5.3
