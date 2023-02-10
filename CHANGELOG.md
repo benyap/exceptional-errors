@@ -1,5 +1,23 @@
 
 
+## [0.4.1](https://github.com/benyap/exceptional-errors/compare/0.4.0...0.4.1) (2023-02-10)
+
+
+### Internal
+
+* **deps:** update commitlint monorepo to v17.4.2 ([#39](https://github.com/benyap/exceptional-errors/issues/39)) ([2d5c607](https://github.com/benyap/exceptional-errors/commit/2d5c6076b70e136191b4d28f17f33f2724691888))
+* **deps:** update dependency husky to v8.0.3 ([#38](https://github.com/benyap/exceptional-errors/issues/38)) ([149b094](https://github.com/benyap/exceptional-errors/commit/149b094a300ac5ad2395623b93595babd55ad23c))
+* **deps:** update dependency mocha to v10.2.0 ([#35](https://github.com/benyap/exceptional-errors/issues/35)) ([e96cd0d](https://github.com/benyap/exceptional-errors/commit/e96cd0d65e683e57037c4e31a1df5d15e2a7ac9e))
+* **deps:** update dependency prettier to v2.8.1 ([#33](https://github.com/benyap/exceptional-errors/issues/33)) ([2d876f0](https://github.com/benyap/exceptional-errors/commit/2d876f00d2b7f015ec1a6218c9a74a37857e61a9))
+* **deps:** update dependency prettier to v2.8.4 ([#40](https://github.com/benyap/exceptional-errors/issues/40)) ([9080b03](https://github.com/benyap/exceptional-errors/commit/9080b0346b9b8bc7e5153ccc4aebebdab6ca227d))
+* **deps:** update dependency release-it to v15.6.0 ([#37](https://github.com/benyap/exceptional-errors/issues/37)) ([55c4b59](https://github.com/benyap/exceptional-errors/commit/55c4b595c908378192547e358d76780932381518))
+* **deps:** update dependency rimraf to v4 ([#41](https://github.com/benyap/exceptional-errors/issues/41)) ([e442ef8](https://github.com/benyap/exceptional-errors/commit/e442ef8eb81494be282bde189a4dd96deda88bc0))
+* **deps:** update dependency serve to v14.2.0 ([#42](https://github.com/benyap/exceptional-errors/issues/42)) ([238f56e](https://github.com/benyap/exceptional-errors/commit/238f56efeeb9d350dce55913b309c3a859229662))
+* **deps:** update dependency typescript to v4.9.4 ([#34](https://github.com/benyap/exceptional-errors/issues/34)) ([d9313dd](https://github.com/benyap/exceptional-errors/commit/d9313dd2e6ad922ececc7e0978620f92d331f598))
+* **deps:** update dependency typescript to v4.9.5 ([#43](https://github.com/benyap/exceptional-errors/issues/43)) ([7168e83](https://github.com/benyap/exceptional-errors/commit/7168e83be1d6f1f5e5013fb87c7f7f449d6312d6))
+* **deps:** update dependency wait-on to v7 ([#36](https://github.com/benyap/exceptional-errors/issues/36)) ([ae33a6d](https://github.com/benyap/exceptional-errors/commit/ae33a6d20be2ef0faee925a7eadfde21449a7044))
+* update commitlint script ([33f1393](https://github.com/benyap/exceptional-errors/commit/33f13938a5d8f59f3c97a0a3dded5c5fb1956867))
+
 ## [0.4.0](https://github.com/benyap/exceptional-errors/compare/0.3.3...0.4.0) (2022-12-07)
 
 
