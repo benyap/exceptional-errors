@@ -1,5 +1,12 @@
 
 
+## [0.4.3](https://github.com/benyap/exceptional-errors/compare/0.4.2...0.4.3) (2023-08-13)
+
+
+### Internal
+
+* fix pnpm-lock.yaml ([23e4b55](https://github.com/benyap/exceptional-errors/commit/23e4b55509d46f695fea57eab26e6241599fec66))
+
 ## [0.4.2](https://github.com/benyap/exceptional-errors/compare/0.4.1...0.4.2) (2023-08-13)
 
 
