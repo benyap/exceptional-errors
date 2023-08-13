@@ -1,5 +1,53 @@
 
 
+## [0.4.2](https://github.com/benyap/exceptional-errors/compare/0.4.1...0.4.2) (2023-08-13)
+
+
+### Internal
+
+* add stale issues workflow ([260e691](https://github.com/benyap/exceptional-errors/commit/260e691095e39f4185d3b3ab3ed1b1e4b96a9730))
+* **deps:** update commitlint monorepo to v17.4.3 ([#44](https://github.com/benyap/exceptional-errors/issues/44)) ([2dc4b33](https://github.com/benyap/exceptional-errors/commit/2dc4b3361afeabc9793ba8dd2f7bc47238c1fdda))
+* **deps:** update commitlint monorepo to v17.6.0 ([#45](https://github.com/benyap/exceptional-errors/issues/45)) ([ed6baa7](https://github.com/benyap/exceptional-errors/commit/ed6baa7ee9b8e843ff2a6ccde9f9d2a265ecfc2e))
+* **deps:** update commitlint monorepo to v17.6.1 ([#54](https://github.com/benyap/exceptional-errors/issues/54)) ([86c149e](https://github.com/benyap/exceptional-errors/commit/86c149eaeafd04b42636c31330bf9bbe6f1484a9))
+* **deps:** update commitlint monorepo to v17.6.3 ([#62](https://github.com/benyap/exceptional-errors/issues/62)) ([dadedd5](https://github.com/benyap/exceptional-errors/commit/dadedd5192d349d1480b9d98f622876b6f159a30))
+* **deps:** update commitlint monorepo to v17.6.5 ([#66](https://github.com/benyap/exceptional-errors/issues/66)) ([fe8c776](https://github.com/benyap/exceptional-errors/commit/fe8c776ec8b0bf2f2038fd70f70a8c79404eb82e))
+* **deps:** update commitlint monorepo to v17.6.6 ([#74](https://github.com/benyap/exceptional-errors/issues/74)) ([95944e0](https://github.com/benyap/exceptional-errors/commit/95944e0cf30f485c23f89e454feafba8ccc50244))
+* **deps:** update commitlint monorepo to v17.6.7 ([#82](https://github.com/benyap/exceptional-errors/issues/82)) ([0d966c3](https://github.com/benyap/exceptional-errors/commit/0d966c39e6c6b880578fa83eac1566a085330336))
+* **deps:** update dependency @release-it/conventional-changelog to v7 ([#79](https://github.com/benyap/exceptional-errors/issues/79)) ([40fc2be](https://github.com/benyap/exceptional-errors/commit/40fc2beb3c76b7f4a3025e1755cbb83d56e6d630))
+* **deps:** update dependency @types/chai to v4.3.5 ([#58](https://github.com/benyap/exceptional-errors/issues/58)) ([35534fc](https://github.com/benyap/exceptional-errors/commit/35534fc31f7816edb274e23f4fab899489e25068))
+* **deps:** update dependency concurrently to v8 ([#52](https://github.com/benyap/exceptional-errors/issues/52)) ([474cf25](https://github.com/benyap/exceptional-errors/commit/474cf250e9db8de31290e5ab2adb69b0e9860d9c))
+* **deps:** update dependency concurrently to v8.1.0 ([#68](https://github.com/benyap/exceptional-errors/issues/68)) ([7b3f5b9](https://github.com/benyap/exceptional-errors/commit/7b3f5b928bd361519821b849fa18feb5ff36b916))
+* **deps:** update dependency concurrently to v8.2.0 ([#72](https://github.com/benyap/exceptional-errors/issues/72)) ([493a0dc](https://github.com/benyap/exceptional-errors/commit/493a0dca238df58d437c492a69b51cd8cef18061))
+* **deps:** update dependency prettier to v2.8.7 ([#50](https://github.com/benyap/exceptional-errors/issues/50)) ([c3492a1](https://github.com/benyap/exceptional-errors/commit/c3492a1d6e85463ac65c88fd46de3783882a2e03))
+* **deps:** update dependency prettier to v2.8.8 ([#57](https://github.com/benyap/exceptional-errors/issues/57)) ([91a5968](https://github.com/benyap/exceptional-errors/commit/91a59681872e2c49be430238c5a6bc3a79a70c1d))
+* **deps:** update dependency prettier to v3 ([#77](https://github.com/benyap/exceptional-errors/issues/77)) ([c3f7bbd](https://github.com/benyap/exceptional-errors/commit/c3f7bbdd3a1eef5bc3d6707e0c5aa09949527c55))
+* **deps:** update dependency release-it to v15.10.1 ([#47](https://github.com/benyap/exceptional-errors/issues/47)) ([22779e2](https://github.com/benyap/exceptional-errors/commit/22779e2cc09c034dfae610bdfb670406ebdf9679))
+* **deps:** update dependency release-it to v15.10.2 ([#59](https://github.com/benyap/exceptional-errors/issues/59)) ([79cc3e1](https://github.com/benyap/exceptional-errors/commit/79cc3e10700cd810f0ec79dae8e06640678d8dbe))
+* **deps:** update dependency release-it to v15.10.3 ([#60](https://github.com/benyap/exceptional-errors/issues/60)) ([880762c](https://github.com/benyap/exceptional-errors/commit/880762cd46270ab8116463b0beaaff51e43bd3b9))
+* **deps:** update dependency release-it to v15.10.5 ([#67](https://github.com/benyap/exceptional-errors/issues/67)) ([3dfdf41](https://github.com/benyap/exceptional-errors/commit/3dfdf41e75af630b1ff784168112d94b31b2e52f))
+* **deps:** update dependency release-it to v15.11.0 ([#71](https://github.com/benyap/exceptional-errors/issues/71)) ([3c932ae](https://github.com/benyap/exceptional-errors/commit/3c932ae64462dd245061adc41ba06875ef9ce5cc))
+* **deps:** update dependency release-it to v16 ([#78](https://github.com/benyap/exceptional-errors/issues/78)) ([b424f2f](https://github.com/benyap/exceptional-errors/commit/b424f2f4fe5d944ce39a6a971335cf5d7ff035a5))
+* **deps:** update dependency release-it to v16.1.3 ([#80](https://github.com/benyap/exceptional-errors/issues/80)) ([5eed2eb](https://github.com/benyap/exceptional-errors/commit/5eed2ebbb5048fccfd12da9eb2fc25be5a3ec23b))
+* **deps:** update dependency rimraf to v5 ([#53](https://github.com/benyap/exceptional-errors/issues/53)) ([853984c](https://github.com/benyap/exceptional-errors/commit/853984c453c56438e168f14c5449569d3d9d6ac1))
+* **deps:** update dependency rimraf to v5.0.1 ([#64](https://github.com/benyap/exceptional-errors/issues/64)) ([840c665](https://github.com/benyap/exceptional-errors/commit/840c665fbeaed2f01f6958f0aa00cd29b90087e4))
+* **deps:** update dependency typescript to v5 ([#49](https://github.com/benyap/exceptional-errors/issues/49)) ([4ab3471](https://github.com/benyap/exceptional-errors/commit/4ab3471abbb04838dce1d37ac93dda4e19d5840f))
+* **deps:** update dependency typescript to v5.1.3 ([#69](https://github.com/benyap/exceptional-errors/issues/69)) ([9c90473](https://github.com/benyap/exceptional-errors/commit/9c9047307aba2338225fcceaa9c565cf8a95a0ad))
+* **deps:** update dependency typescript to v5.1.6 ([#75](https://github.com/benyap/exceptional-errors/issues/75)) ([c54f1ed](https://github.com/benyap/exceptional-errors/commit/c54f1edb19b5ceb56b004228f38a663927f0267d))
+* **deps:** update pnpm to v8 ([#51](https://github.com/benyap/exceptional-errors/issues/51)) ([63759fe](https://github.com/benyap/exceptional-errors/commit/63759fe15bf13de6520d98d69850f7bdd0a9f5b5))
+* **deps:** update pnpm to v8.3.0 ([#55](https://github.com/benyap/exceptional-errors/issues/55)) ([e603661](https://github.com/benyap/exceptional-errors/commit/e603661216e524a599b48dc5da1e98e967acd579))
+* **deps:** update pnpm to v8.3.1 ([#56](https://github.com/benyap/exceptional-errors/issues/56)) ([37ad486](https://github.com/benyap/exceptional-errors/commit/37ad4862aeddff0fe9868309c362d540518a5461))
+* **deps:** update pnpm to v8.5.0 ([#61](https://github.com/benyap/exceptional-errors/issues/61)) ([d39cf37](https://github.com/benyap/exceptional-errors/commit/d39cf37730ebf524410dc6b4db93c38b8549e022))
+* **deps:** update pnpm to v8.5.1 ([#63](https://github.com/benyap/exceptional-errors/issues/63)) ([1414d7e](https://github.com/benyap/exceptional-errors/commit/1414d7e7d0bdcaaf925c81b47ec0c1efa3ce74c1))
+* **deps:** update pnpm to v8.6.0 ([#65](https://github.com/benyap/exceptional-errors/issues/65)) ([6904617](https://github.com/benyap/exceptional-errors/commit/690461797c9eef4768ccdd40f0d1f382cdd40a56))
+* **deps:** update pnpm to v8.6.10 ([#81](https://github.com/benyap/exceptional-errors/issues/81)) ([94fef77](https://github.com/benyap/exceptional-errors/commit/94fef77af68b27d8e929b3d236f0ff4588233e6b))
+* **deps:** update pnpm to v8.6.2 ([#70](https://github.com/benyap/exceptional-errors/issues/70)) ([64590cc](https://github.com/benyap/exceptional-errors/commit/64590cc512485f924bfb683ebea46e4e5d759128))
+* **deps:** update pnpm to v8.6.7 ([#73](https://github.com/benyap/exceptional-errors/issues/73)) ([a72a8da](https://github.com/benyap/exceptional-errors/commit/a72a8da8e610675ee1e007ffcfc26753569c5024))
+* **deps:** update pnpm/action-setup action to v2.4.0 ([#83](https://github.com/benyap/exceptional-errors/issues/83)) ([fdc5f3c](https://github.com/benyap/exceptional-errors/commit/fdc5f3ccff11a3a7fc851d956c0541b87506512d))
+* **deps:** upgrade dependencies ([6337929](https://github.com/benyap/exceptional-errors/commit/6337929e6a8b72fc178cb37021b979428f52fc27))
+* explicitly set tag name format when releasing ([2cf99d8](https://github.com/benyap/exceptional-errors/commit/2cf99d875dadd50bce6dc1533803e2c220f40d3d))
+* update package.json ([b507b0a](https://github.com/benyap/exceptional-errors/commit/b507b0a1122c401b853208ae25eca0d8d0bde039))
+* workflow improvements ([581d661](https://github.com/benyap/exceptional-errors/commit/581d661c1365f97918f841d70c873ac59f3812bf))
+
 ## [0.4.1](https://github.com/benyap/exceptional-errors/compare/0.4.0...0.4.1) (2023-02-10)
 
 
