@@ -1,5 +1,13 @@
 
 
+## [0.4.4](https://github.com/benyap/exceptional-errors/compare/0.4.3...0.4.4) (2023-08-13)
+
+
+### Internal
+
+* **deps:** update pnpm to v8.6.12 ([#84](https://github.com/benyap/exceptional-errors/issues/84)) ([4db6d4f](https://github.com/benyap/exceptional-errors/commit/4db6d4f4b821c27eab84edfb44bafe556046aa7c))
+* fix release script ([b66acb9](https://github.com/benyap/exceptional-errors/commit/b66acb9295fb03dbeb7cc82a3df26dd9022435a4))
+
 ## [0.4.3](https://github.com/benyap/exceptional-errors/compare/0.4.2...0.4.3) (2023-08-13)
 
 
