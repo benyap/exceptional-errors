@@ -46,7 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
-    "@release-it/conventional-changelog": "7.0.0",
+    "@release-it/conventional-changelog": "7.0.2",
     "@types/chai": "4.3.5",
     "@types/mocha": "10.0.1",
     "chai": "4.3.7",
